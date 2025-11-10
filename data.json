@@ -77,7 +77,7 @@
               "id": "checkin",
               "type": "text",
               "title": "Check in window",
-              "body_md": "From 4:00 pm"
+              "body_md": "From 3:00 pm"
             }
           ]
         }
@@ -85,11 +85,11 @@
     },
     {
       "id": "wifi",
-      "title": "Wi‑Fi",
+      "title": "Wi\u2011Fi",
       "subcategories": [
         {
           "id": "wifi-details",
-          "title": "Wi‑Fi details",
+          "title": "Wi\u2011Fi details",
           "topics": [
             {
               "id": "wifi-ssid",
@@ -161,7 +161,7 @@
               "id": "checkout-time",
               "type": "text",
               "title": "Check out time",
-              "body_md": "10:00 am"
+              "body_md": "11:00 am"
             },
             {
               "id": "checkout-list",
@@ -177,6 +177,84 @@
       "id": "local-area",
       "title": "Local area",
       "subcategories": [
+        {
+          "id": "restaurants",
+          "title": "Restaurants",
+          "topics": [
+            {
+              "id": "restaurant-orsay",
+              "type": "text",
+              "map_pin_type": "restaurant",
+              "title": "Restaurant Orsay",
+              "body_md": "Fine dining French bistro with Southern influences. Try the steak frites with rosemary-seasoned steak, red wine jus and butter sauce.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "cowford-chophouse",
+              "type": "text",
+              "map_pin_type": "restaurant",
+              "title": "Cowford Chophouse",
+              "body_md": "Steakhouse famous for its steaks and duck fat cornbread topped with Maine lobster, lump crab and cr\u00e8me fra\u00eeche.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "bearded-pig",
+              "type": "text",
+              "map_pin_type": "restaurant",
+              "title": "The Bearded Pig",
+              "body_md": "Casual barbecue spot known for its Frito Pie: brisket and beans served over Frito chips with cheese and jalape\u00f1o aioli.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "indochine",
+              "type": "text",
+              "map_pin_type": "restaurant",
+              "title": "Indochine",
+              "body_md": "Thai restaurant voted one of the city\u2019s best. Signature dish: crab rangoon filled with real lump crab and curried cream cheese.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "maple-street-biscuit",
+              "type": "text",
+              "map_pin_type": "restaurant",
+              "title": "Maple Street Biscuit Company",
+              "body_md": "Southern comfort food. Don\u2019t miss the Squawking Goat: fried chicken and goat cheese medallion on a flaky biscuit with house-made pepper jelly.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "palms-fish-camp",
+              "type": "text",
+              "map_pin_type": "restaurant",
+              "title": "Palms Fish Camp",
+              "body_md": "Seafood restaurant serving fresh Mayport shrimp and fish with scenic water views. Try the shrimp and grits or blackened fish.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "tacolu",
+              "type": "text",
+              "map_pin_type": "restaurant",
+              "title": "TacoLu",
+              "body_md": "Lively spot for tacos and tequila. Signature dish: Bangin\u2019 Shrimp Taco with crispy shrimp, cabbage and chipotle cream.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "french-pantry",
+              "type": "text",
+              "map_pin_type": "restaurant",
+              "title": "The French Pantry",
+              "body_md": "Cozy lunch spot where the menu changes daily. Their bruschetta comes in multiple options, always made from scratch.",
+              "lat": "",
+              "lng": ""
+            }
+          ]
+        },
         {
           "id": "cafes",
           "title": "Cafes",
@@ -229,8 +307,8 @@
           ]
         },
         {
-          "id": "breweries-bars",
-          "title": "Breweries and bars",
+          "id": "bars",
+          "title": "Bars and breweries",
           "topics": [
             {
               "id": "intuition-ale-works",
@@ -491,7 +569,7 @@
               "id": "work-with-wifi",
               "type": "text",
               "map_pin_type": "tip",
-              "title": "Work with Wi‑Fi",
+              "title": "Work with Wi\u2011Fi",
               "body_md": "Southern Grounds or Bold Bean."
             },
             {
@@ -562,8 +640,120 @@
     "ai": {
       "suggestions": true
     },
-    "data_version": "2025-11-10T15:11:11.301Z",
+    "data_version": "",
     "hero_image": "/hero.png"
   },
-  "invitations": []
+  "invitations": [],
+  "house_tour": {
+    "auto_place": false,
+    "groups": [
+      {
+        "id": "exterior",
+        "title": "Exterior & Entrance",
+        "tiles": []
+      },
+      {
+        "id": "first-floor",
+        "title": "First Floor",
+        "tiles": []
+      },
+      {
+        "id": "outdoor",
+        "title": "Outdoor Area",
+        "tiles": []
+      },
+      {
+        "id": "second-floor",
+        "title": "Second Floor",
+        "tiles": []
+      },
+      {
+        "id": "unsorted",
+        "title": "Unsorted",
+        "tiles": []
+      }
+    ],
+    "incoming": [
+      "/images/_incoming/0A740C08-D444-4C26-AC52-D4C65B1C6377.png",
+      "/images/_incoming/0E8D1C7E-E189-4134-A62C-54BEAC462290.png",
+      "/images/_incoming/0EA16F1C-6C3E-4E2A-80A9-3AB6CAE0186D.jpeg",
+      "/images/_incoming/0EE26473-943E-4CA7-922F-7804FBF1A4E5.jpeg",
+      "/images/_incoming/0F831DD5-FF18-4C1B-AF79-6870C1FB5F2D.jpeg",
+      "/images/_incoming/1A023195-03C2-45C2-8BC3-EE9A360D5381.jpeg"
+    ]
+  },
+  "how_to": {
+    "items": [
+      {
+        "id": "jacuzzi",
+        "title": "Jacuzzi / Hot Tub",
+        "icon": "hot-tub",
+        "steps": [
+          "Remove cover and secure safely.",
+          "Set temperature to 100\u2013102\u00b0F.",
+          "Press Jets to start, adjust air control dials.",
+          "After use, turn Jets off and replace cover."
+        ]
+      },
+      {
+        "id": "grill",
+        "title": "Propane Grill",
+        "icon": "grill",
+        "steps": [
+          "Open the lid.",
+          "Turn gas valve on at the tank.",
+          "Set burner to Ignite and press igniter.",
+          "Preheat 10 minutes. After use, close valve and clean grates."
+        ]
+      },
+      {
+        "id": "thermostat",
+        "title": "Thermostat",
+        "icon": "thermostat",
+        "steps": [
+          "Tap mode to Heat/Cool/Auto.",
+          "Set target temperature.",
+          "Fan Auto for normal use."
+        ]
+      },
+      {
+        "id": "kitchen",
+        "title": "Kitchen Appliances",
+        "icon": "kitchen",
+        "steps": [
+          "Microwave: time, power level, Start/Stop.",
+          "Oven: bake temp, preheat indicator.",
+          "Coffee maker: fill water, insert grounds/pod, press Brew."
+        ]
+      },
+      {
+        "id": "laundry",
+        "title": "Washer & Dryer",
+        "icon": "laundry",
+        "steps": [
+          "Washer: add detergent to drawer, select cycle, press Start.",
+          "Dryer: clean lint trap, select cycle, press Start."
+        ]
+      },
+      {
+        "id": "tv",
+        "title": "Smart TV & Streaming",
+        "icon": "tv",
+        "steps": [
+          "Power on TV and streaming stick.",
+          "Connect to Wi\u2011Fi Ukc-rentals.",
+          "Open desired app and sign in if needed."
+        ]
+      },
+      {
+        "id": "keypad",
+        "title": "Keypad Entry",
+        "icon": "key",
+        "steps": [
+          "Enter code sent at 11:00 am day of check\u2011in.",
+          "Lock by pressing the Lock icon when leaving."
+        ]
+      }
+    ]
+  }
 }
