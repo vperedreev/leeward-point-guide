@@ -8,6 +8,22 @@
 // Cached copy of the data file
 let _cachedData;
 
+// Mapping of category IDs to Font Awesome icon classes for the info page
+const CATEGORY_ICONS = {
+  'arrival-parking': 'fa-car',
+  'access-checkin': 'fa-key',
+  'wifi': 'fa-wifi',
+  'rules-safety': 'fa-shield-alt',
+  'checkout': 'fa-door-open',
+  'local-area': 'fa-map',
+  'book-again': 'fa-shopping-bag'
+};
+
+// Draft data used by the admin panel for editing
+let draftData = null;
+// Track currently edited entity for admin panel
+let currentEdit = null;
+
 /** Fetch and cache the site data. */
 async function getData() {
   if (_cachedData) return _cachedData;
@@ -85,13 +101,50 @@ async function loadHome() {
   if (!main) return;
   const guide = data.guide || {};
   main.innerHTML = '';
-  const title = document.createElement('h2');
-  title.textContent = guide.name || 'Guestbook';
-  main.appendChild(title);
+  // Build hero banner
+  const hero = document.getElementById('hero') || document.createElement('div');
+  hero.id = 'hero';
+  hero.className = 'hero';
+  // Use hero_image from settings or fallback
+  const heroImg = data.settings?.hero_image || '';
+  if (heroImg) {
+    hero.style.backgroundImage = `url('${heroImg}')`;
+  }
+  const heroContent = document.createElement('div');
+  heroContent.className = 'hero-content';
+  const hTitle = document.createElement('h2');
+  hTitle.textContent = guide.name || 'Guestbook';
+  heroContent.appendChild(hTitle);
+  if (guide.address) {
+    const addr = document.createElement('p');
+    addr.textContent = guide.address;
+    heroContent.appendChild(addr);
+  }
   const welcome = document.createElement('p');
   welcome.textContent = 'Welcome to your digital guestbook and guide.';
-  main.appendChild(welcome);
-  // Contact information
+  heroContent.appendChild(welcome);
+  const btnWrapper = document.createElement('div');
+  btnWrapper.className = 'hero-buttons';
+  // View Info button
+  const infoBtn = document.createElement('button');
+  infoBtn.textContent = 'View Info';
+  infoBtn.onclick = () => {
+    window.location.href = '/info.html';
+  };
+  btnWrapper.appendChild(infoBtn);
+  // Open Map button
+  const mapBtn = document.createElement('button');
+  mapBtn.textContent = 'Open Map';
+  mapBtn.onclick = () => {
+    window.location.href = '/map.html';
+  };
+  btnWrapper.appendChild(mapBtn);
+  heroContent.appendChild(btnWrapper);
+  hero.innerHTML = '';
+  hero.appendChild(heroContent);
+  // Append hero to main
+  main.appendChild(hero);
+  // Contact information below hero
   if (guide.contact) {
     const contact = document.createElement('div');
     contact.innerHTML = `<p><strong>Host phone:</strong> ${guide.contact.host_phone || ''}</p>` +
@@ -114,28 +167,28 @@ async function loadInfo() {
   if (!main) return;
   main.innerHTML = '';
   const categories = data.categories || [];
+  // Build an icon grid for categories
+  const grid = document.createElement('div');
+  grid.className = 'icon-grid';
   categories.forEach(cat => {
-    const catDiv = document.createElement('div');
-    catDiv.classList.add('category');
-    const catTitle = document.createElement('h3');
-    catTitle.textContent = cat.title;
-    catDiv.appendChild(catTitle);
-    if (cat.subcategories && cat.subcategories.length > 0) {
-      const ul = document.createElement('ul');
-      ul.classList.add('list');
-      cat.subcategories.forEach(sub => {
-        const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.textContent = sub.title;
-        a.href = `/subcategory.html?id=${encodeURIComponent(sub.id)}`;
-        a.classList.add('item-link');
-        li.appendChild(a);
-        ul.appendChild(li);
-      });
-      catDiv.appendChild(ul);
-    }
-    main.appendChild(catDiv);
+    const card = document.createElement('div');
+    card.className = 'icon-card';
+    // Icon element
+    const iconEl = document.createElement('i');
+    const iconClass = CATEGORY_ICONS[cat.id] || 'fa-folder';
+    iconEl.className = `fa-solid ${iconClass}`;
+    card.appendChild(iconEl);
+    // Title
+    const span = document.createElement('span');
+    span.textContent = cat.title;
+    card.appendChild(span);
+    // Click handler to open subcategory list
+    card.onclick = () => {
+      window.location.href = `/subcategory.html?id=${encodeURIComponent(cat.subcategories && cat.subcategories[0]?.id || '')}`;
+    };
+    grid.appendChild(card);
   });
+  main.appendChild(grid);
   const qrBtn = document.getElementById('qr-button');
   if (qrBtn) {
     qrBtn.onclick = showQR;
@@ -165,22 +218,23 @@ async function loadSubcategory() {
   const title = document.createElement('h2');
   title.textContent = subcategory.title;
   main.appendChild(title);
-  const items = subcategory.items || [];
-  if (items.length === 0) {
+  // Use topics array from data instead of items
+  const topics = subcategory.topics || subcategory.items || [];
+  if (!topics || topics.length === 0) {
     const p = document.createElement('p');
     p.textContent = 'There are no entries for this section yet.';
     main.appendChild(p);
   } else {
     const ul = document.createElement('ul');
     ul.classList.add('list');
-    items.forEach(item => {
+    topics.forEach(topic => {
       const li = document.createElement('li');
       const h = document.createElement('h4');
-      h.textContent = item.title;
+      h.textContent = topic.title;
       li.appendChild(h);
-      if (item.description) {
+      if (topic.body_md || topic.description) {
         const d = document.createElement('p');
-        d.textContent = item.description;
+        d.textContent = topic.body_md || topic.description;
         li.appendChild(d);
       }
       ul.appendChild(li);
@@ -222,9 +276,12 @@ async function loadSearch() {
         if (sub.title.toLowerCase().includes(q)) {
           results.push({ type: 'Section', title: sub.title, href: `/subcategory.html?id=${encodeURIComponent(sub.id)}` });
         }
-        for (const item of sub.items || []) {
-          if ((item.title || '').toLowerCase().includes(q) || (item.description || '').toLowerCase().includes(q)) {
-            results.push({ type: 'Item', title: item.title, href: `/subcategory.html?id=${encodeURIComponent(sub.id)}` });
+        const topicList = sub.topics || sub.items || [];
+        for (const item of topicList) {
+          const titleStr = (item.title || '').toLowerCase();
+          const bodyStr = (item.body_md || item.description || '').toLowerCase();
+          if (titleStr.includes(q) || bodyStr.includes(q)) {
+            results.push({ type: 'Topic', title: item.title, href: `/subcategory.html?id=${encodeURIComponent(sub.id)}` });
           }
         }
       }
@@ -307,63 +364,14 @@ async function hashPasscode(pass) {
 async function loadAdmin() {
   const data = await getData();
   await applyBrand();
-  buildNav();
+  buildNav('admin');
   const main = document.querySelector('main');
   if (!main) return;
   main.innerHTML = '';
   // Check if a passcode hash exists
   const storedHash = localStorage.getItem('adminPasscode');
-  async function renderAdminPanel() {
-    main.innerHTML = '';
-    const h = document.createElement('h2');
-    h.textContent = 'Admin Panel';
-    main.appendChild(h);
-    // GitHub Token setup
-    const tokenLabel = document.createElement('label');
-    tokenLabel.textContent = 'GitHub Personal Access Token:';
-    main.appendChild(tokenLabel);
-    const tokenInput = document.createElement('input');
-    tokenInput.type = 'password';
-    tokenInput.value = localStorage.getItem('githubToken') || '';
-    main.appendChild(tokenInput);
-    const saveTokenBtn = document.createElement('button');
-    saveTokenBtn.textContent = 'Save Token';
-    saveTokenBtn.onclick = () => {
-      localStorage.setItem('githubToken', tokenInput.value);
-      alert('Token saved locally.');
-    };
-    main.appendChild(saveTokenBtn);
-    // Publish and rollback buttons
-    const publishBtn = document.createElement('button');
-    publishBtn.textContent = 'Publish Site';
-    publishBtn.onclick = () => {
-      publishSite();
-    };
-    main.appendChild(publishBtn);
-    const rollbackBtn = document.createElement('button');
-    rollbackBtn.textContent = 'Rollback';
-    rollbackBtn.onclick = () => {
-      rollbackSite();
-    };
-    main.appendChild(rollbackBtn);
-    // AI suggestions
-    const suggestionsDiv = document.createElement('div');
-    suggestionsDiv.style.marginTop = '1rem';
-    const sTitle = document.createElement('h3');
-    sTitle.textContent = 'Suggestions';
-    suggestionsDiv.appendChild(sTitle);
-    const ul = document.createElement('ul');
-    ul.classList.add('list');
-    generateSuggestions(data).forEach(s => {
-      const li = document.createElement('li');
-      li.textContent = s;
-      ul.appendChild(li);
-    });
-    suggestionsDiv.appendChild(ul);
-    main.appendChild(suggestionsDiv);
-  }
+  // Show passcode setup or login
   if (!storedHash) {
-    // No passcode set yet, prompt user to set one
     const h = document.createElement('h2');
     h.textContent = 'Set Admin Passcode';
     main.appendChild(h);
@@ -380,7 +388,6 @@ async function loadAdmin() {
     };
     main.appendChild(btn);
   } else {
-    // Passcode exists; ask user to enter it
     const h = document.createElement('h2');
     h.textContent = 'Admin Login';
     main.appendChild(h);
@@ -393,7 +400,9 @@ async function loadAdmin() {
     btn.onclick = async () => {
       const hash = await hashPasscode(input.value);
       if (hash === localStorage.getItem('adminPasscode')) {
-        renderAdminPanel();
+        // Initialise draft data and render admin panel
+        draftData = JSON.parse(JSON.stringify(data));
+        initAdminPanel();
       } else {
         alert('Incorrect passcode');
       }
@@ -418,8 +427,9 @@ function generateSuggestions(data) {
       suggestions.push(`Add sections within "${cat.title}".`);
     } else {
       cat.subcategories.forEach(sub => {
-        if (!sub.items || sub.items.length === 0) {
-          suggestions.push(`Add items to the section "${sub.title}".`);
+        const topics = sub.topics || sub.items || [];
+        if (!topics || topics.length === 0) {
+          suggestions.push(`Add topics to the section "${sub.title}".`);
         }
       });
     }
@@ -430,18 +440,251 @@ function generateSuggestions(data) {
   return suggestions;
 }
 
+/**
+ * Initialise the admin panel UI once the user has authenticated.  This
+ * function builds a sidebar listing all categories, subcategories and
+ * topics and an editor pane for editing titles, bodies and map types.
+ */
+function initAdminPanel() {
+  const main = document.querySelector('main');
+  if (!main) return;
+  main.innerHTML = '';
+  // Container for the admin interface
+  const container = document.createElement('div');
+  container.className = 'admin-container';
+  // Sidebar
+  const sidebar = document.createElement('div');
+  sidebar.className = 'admin-sidebar';
+  container.appendChild(sidebar);
+  // Editor area
+  const editor = document.createElement('div');
+  editor.className = 'admin-editor';
+  container.appendChild(editor);
+  main.appendChild(container);
+  // Controls container
+  const controls = document.createElement('div');
+  controls.className = 'admin-controls';
+  // GitHub token input
+  const tokenLabel = document.createElement('label');
+  tokenLabel.textContent = 'GitHub Personal Access Token:';
+  controls.appendChild(tokenLabel);
+  const tokenInput = document.createElement('input');
+  tokenInput.type = 'password';
+  tokenInput.value = localStorage.getItem('githubToken') || '';
+  controls.appendChild(tokenInput);
+  const saveTokenBtn = document.createElement('button');
+  saveTokenBtn.textContent = 'Save Token';
+  saveTokenBtn.onclick = () => {
+    localStorage.setItem('githubToken', tokenInput.value);
+    alert('Token saved locally.');
+  };
+  controls.appendChild(saveTokenBtn);
+  // Save draft button
+  const saveDraftBtn = document.createElement('button');
+  saveDraftBtn.textContent = 'Save Draft';
+  saveDraftBtn.onclick = () => {
+    if (draftData) {
+      localStorage.setItem('draftData', JSON.stringify(draftData));
+      alert('Draft saved locally.');
+    }
+  };
+  controls.appendChild(saveDraftBtn);
+  // Download JSON button
+  const downloadBtn = document.createElement('button');
+  downloadBtn.textContent = 'Download JSON';
+  downloadBtn.onclick = () => {
+    if (!draftData) return;
+    const dataStr = JSON.stringify(draftData, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'data.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+  controls.appendChild(downloadBtn);
+  // Publish site button
+  const publishBtn = document.createElement('button');
+  publishBtn.textContent = 'Publish';
+  publishBtn.onclick = async () => {
+    await publishSite(true);
+  };
+  controls.appendChild(publishBtn);
+  // Rollback button
+  const rollbackBtn = document.createElement('button');
+  rollbackBtn.textContent = 'Rollback';
+  rollbackBtn.onclick = () => {
+    rollbackSite();
+  };
+  controls.appendChild(rollbackBtn);
+  main.appendChild(controls);
+  // Generate suggestions section
+  const suggestionsDiv = document.createElement('div');
+  suggestionsDiv.style.marginTop = '1rem';
+  const sTitle = document.createElement('h3');
+  sTitle.textContent = 'Suggestions';
+  suggestionsDiv.appendChild(sTitle);
+  const sugList = document.createElement('ul');
+  sugList.className = 'list';
+  generateSuggestions(draftData).forEach(s => {
+    const li = document.createElement('li');
+    li.textContent = s;
+    sugList.appendChild(li);
+  });
+  suggestionsDiv.appendChild(sugList);
+  main.appendChild(suggestionsDiv);
+  // Build sidebar listing
+  buildAdminSidebar(sidebar, editor);
+  // Autosave draft every 5 seconds
+  setInterval(() => {
+    if (draftData) {
+      localStorage.setItem('draftData', JSON.stringify(draftData));
+    }
+  }, 5000);
+}
+
+/**
+ * Build the sidebar listing all categories, subcategories and topics.
+ * Clicking an entry populates the editor pane with editable fields.
+ *
+ * @param {HTMLElement} sidebar The container for the navigation list
+ * @param {HTMLElement} editor The container for the editor form
+ */
+function buildAdminSidebar(sidebar, editor) {
+  sidebar.innerHTML = '';
+  const list = document.createElement('ul');
+  // Iterate categories
+  draftData.categories?.forEach((cat, cIndex) => {
+    const catItem = document.createElement('li');
+    catItem.textContent = cat.title;
+    catItem.onclick = () => {
+      selectEdit('category', cIndex, null, null, editor);
+      setActive(catItem);
+    };
+    list.appendChild(catItem);
+    // Subcategories
+    cat.subcategories?.forEach((sub, sIndex) => {
+      const subItem = document.createElement('li');
+      subItem.style.paddingLeft = '1rem';
+      subItem.textContent = '– ' + sub.title;
+      subItem.onclick = () => {
+        selectEdit('subcategory', cIndex, sIndex, null, editor);
+        setActive(subItem);
+      };
+      list.appendChild(subItem);
+      // Topics
+      (sub.topics || sub.items || []).forEach((topic, tIndex) => {
+        const topicItem = document.createElement('li');
+        topicItem.style.paddingLeft = '2rem';
+        topicItem.textContent = '• ' + topic.title;
+        topicItem.onclick = () => {
+          selectEdit('topic', cIndex, sIndex, tIndex, editor);
+          setActive(topicItem);
+        };
+        list.appendChild(topicItem);
+      });
+    });
+  });
+  sidebar.appendChild(list);
+
+  // Helper to highlight active item
+  function setActive(item) {
+    const items = sidebar.querySelectorAll('li');
+    items.forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+  }
+}
+
+/**
+ * Populate the editor pane based on the selected entity type.
+ * This function binds change events to update draftData.
+ *
+ * @param {string} type One of 'category', 'subcategory' or 'topic'
+ * @param {number} cIndex Index of category
+ * @param {number|null} sIndex Index of subcategory
+ * @param {number|null} tIndex Index of topic
+ * @param {HTMLElement} editor The editor container
+ */
+function selectEdit(type, cIndex, sIndex, tIndex, editor) {
+  currentEdit = { type, cIndex, sIndex, tIndex };
+  editor.innerHTML = '';
+  const dataRef = getDataRef(type, cIndex, sIndex, tIndex);
+  if (!dataRef) return;
+  // Title field
+  const titleLabel = document.createElement('label');
+  titleLabel.textContent = 'Title';
+  editor.appendChild(titleLabel);
+  const titleInput = document.createElement('input');
+  titleInput.type = 'text';
+  titleInput.value = dataRef.title || '';
+  titleInput.oninput = () => {
+    dataRef.title = titleInput.value;
+  };
+  editor.appendChild(titleInput);
+  // Body/Description for topics
+  if (type === 'topic') {
+    const bodyLabel = document.createElement('label');
+    bodyLabel.textContent = 'Body';
+    editor.appendChild(bodyLabel);
+    const bodyArea = document.createElement('textarea');
+    bodyArea.rows = 6;
+    bodyArea.value = dataRef.body_md || dataRef.description || '';
+    bodyArea.oninput = () => {
+      dataRef.body_md = bodyArea.value;
+    };
+    editor.appendChild(bodyArea);
+    // Map pin type selector
+    const typeLabel = document.createElement('label');
+    typeLabel.textContent = 'Map Pin Type';
+    editor.appendChild(typeLabel);
+    const typeSelect = document.createElement('select');
+    const options = ['text', 'location', 'cafe', 'bar', 'trail', 'beach'];
+    options.forEach(opt => {
+      const o = document.createElement('option');
+      o.value = opt;
+      o.textContent = opt;
+      if (dataRef.type === opt) o.selected = true;
+      typeSelect.appendChild(o);
+    });
+    typeSelect.onchange = () => {
+      dataRef.type = typeSelect.value;
+    };
+    editor.appendChild(typeSelect);
+  }
+}
+
+/**
+ * Helper to return a reference to the object in draftData for the
+ * requested entity.  Returns null if not found.
+ */
+function getDataRef(type, cIndex, sIndex, tIndex) {
+  if (!draftData) return null;
+  const cat = draftData.categories?.[cIndex];
+  if (!cat) return null;
+  if (type === 'category') return cat;
+  const sub = cat.subcategories?.[sIndex ?? 0];
+  if (!sub) return null;
+  if (type === 'subcategory') return sub;
+  const topics = sub.topics || sub.items || [];
+  const topic = topics?.[tIndex ?? 0];
+  if (!topic) return null;
+  return topic;
+}
+
 /** Placeholder publish implementation.  It calls GitHub’s REST API to
  * create a commit that touches an empty file with a timestamp.  This
  * requires that the user has provided a personal access token and the
  * repository is already configured.  If the call fails an alert is
  * shown. */
-async function publishSite() {
+async function publishSite(updateData = false) {
   const token = localStorage.getItem('githubToken');
   if (!token) {
     alert('No GitHub token saved. Please save your personal access token.');
     return;
   }
-  // Determine repo from settings
   const data = await getData();
   const repo = data.settings?.publish?.github_repo;
   const branch = data.settings?.publish?.github_branch || 'main';
@@ -450,32 +693,71 @@ async function publishSite() {
     return;
   }
   const apiBase = 'https://api.github.com';
-  // Create a file path with timestamp
-  const path = `deploy-${Date.now()}.txt`;
-  const message = `Automated publish at ${new Date().toISOString()}`;
-  const content = btoa('published');
-  const url = `${apiBase}/repos/${repo}/contents/${path}`;
-  try {
-    const resp = await fetch(url, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `token ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        message: message,
-        content: content,
-        branch: branch
-      })
-    });
-    if (resp.ok) {
-      alert('Publish triggered successfully.');
-    } else {
-      const text = await resp.text();
-      alert('Publish failed: ' + text);
+  if (updateData && draftData) {
+    // Publish updated data.json to the repository
+    try {
+      // Fetch current file to obtain its SHA
+      const fileResp = await fetch(`${apiBase}/repos/${repo}/contents/data.json?ref=${branch}`, {
+        headers: { 'Authorization': `token ${token}` }
+      });
+      if (!fileResp.ok) {
+        const text = await fileResp.text();
+        alert('Failed to fetch data.json: ' + text);
+        return;
+      }
+      const fileInfo = await fileResp.json();
+      const sha = fileInfo.sha;
+      const newContent = btoa(unescape(encodeURIComponent(JSON.stringify(draftData, null, 2))));
+      const commitMessage = `Update data.json via admin panel at ${new Date().toISOString()}`;
+      const putResp = await fetch(`${apiBase}/repos/${repo}/contents/data.json`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `token ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: commitMessage,
+          content: newContent,
+          sha: sha,
+          branch: branch
+        })
+      });
+      if (putResp.ok) {
+        alert('data.json updated successfully. Vercel redeploy will trigger shortly.');
+      } else {
+        const text = await putResp.text();
+        alert('Failed to update data.json: ' + text);
+      }
+    } catch (err) {
+      alert('Publish failed: ' + err);
     }
-  } catch (err) {
-    alert('Publish failed: ' + err);
+  } else {
+    // Trigger a dummy commit to redeploy
+    const path = `deploy-${Date.now()}.txt`;
+    const message = `Automated publish at ${new Date().toISOString()}`;
+    const content = btoa('published');
+    try {
+      const resp = await fetch(`${apiBase}/repos/${repo}/contents/${path}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `token ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: message,
+          content: content,
+          branch: branch
+        })
+      });
+      if (resp.ok) {
+        alert('Publish triggered successfully.');
+      } else {
+        const text = await resp.text();
+        alert('Publish failed: ' + text);
+      }
+    } catch (err) {
+      alert('Publish failed: ' + err);
+    }
   }
 }
 
