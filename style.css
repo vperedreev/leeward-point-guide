@@ -1,0 +1,144 @@
+/*
+ * Basic styling for the Leeward Point guestbook PWA.
+ * Colours and fonts derive from the uploaded data file.
+ */
+
+:root {
+  /* Primary and secondary colours from the data. These values will be
+     replaced at runtime by script.js. */
+  --primary-color: #D4AF37;
+  --secondary-color: #111111;
+  --font-stack: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-stack);
+  background: #ffffff;
+  color: var(--secondary-color);
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+nav {
+  display: flex;
+  gap: 1rem;
+}
+
+nav a {
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav a.active {
+  text-decoration: underline;
+}
+
+main {
+  padding: 1rem;
+}
+
+.category,
+.subcategory {
+  margin-bottom: 1.5rem;
+}
+
+.category h3 {
+  margin: 0.5rem 0;
+}
+
+.subcategory h4 {
+  margin: 0.3rem 0;
+}
+
+.list {
+  list-style: none;
+  padding-left: 1rem;
+}
+
+.list li {
+  margin: 0.25rem 0;
+}
+
+a.item-link {
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+/* Modal for QR codes and admin forms */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 1rem;
+  border-radius: 4px;
+  max-width: 90%;
+}
+
+button {
+  background: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 0;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+input[type="text"],
+input[type="password"],
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+/* Simple responsive adjustments */
+@media (max-width: 600px) {
+  header h1 {
+    flex-basis: 100%;
+    margin-bottom: 0.5rem;
+  }
+  nav {
+    flex-basis: 100%;
+    justify-content: flex-start;
+    margin-top: 0.5rem;
+  }
+}

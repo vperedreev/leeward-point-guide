@@ -1,0 +1,567 @@
+{
+  "guide": {
+    "id": "guestbook",
+    "name": "Leeward Point",
+    "site_url": "https://ukcrentals.holidayfuture.com",
+    "tabs": [
+      {
+        "id": "home",
+        "title": "HOME"
+      },
+      {
+        "id": "info",
+        "title": "INFO"
+      },
+      {
+        "id": "map",
+        "title": "MAP"
+      }
+    ],
+    "languages": {
+      "default": "en",
+      "enabled": [
+        "en"
+      ]
+    },
+    "time_zone": "America/New_York",
+    "coordinates": {
+      "lat": 30.37601,
+      "lng": -81.516018
+    },
+    "contact": {
+      "host_phone": "216-644-3614",
+      "host_email": "ukcrentals@gmail.com"
+    }
+  },
+  "categories": [
+    {
+      "id": "arrival-parking",
+      "title": "Arrival and parking",
+      "subcategories": [
+        {
+          "id": "arrival-basics",
+          "title": "Arrival basics",
+          "topics": [
+            {
+              "id": "address",
+              "type": "text",
+              "title": "Address",
+              "body_md": "4151 Leeward Point, Jacksonville, FL 32225"
+            },
+            {
+              "id": "parking",
+              "type": "text",
+              "title": "Parking",
+              "body_md": "Use the back driveway by the garage. Do not block neighbors. Enter via the screened pool door to the first glass door on the left."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "access-checkin",
+      "title": "Access and check in",
+      "subcategories": [
+        {
+          "id": "access",
+          "title": "Access",
+          "topics": [
+            {
+              "id": "access-method",
+              "type": "text",
+              "title": "Access method",
+              "body_md": "Park at the back driveway by the garage. Walk through the screened pool door. Enter the first glass door on your left. Digital lock. Code arrives by 11:00 am on check-in day."
+            },
+            {
+              "id": "checkin",
+              "type": "text",
+              "title": "Check in window",
+              "body_md": "From 3:00 pm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wifi",
+      "title": "Wi‑Fi",
+      "subcategories": [
+        {
+          "id": "wifi-details",
+          "title": "Wi‑Fi details",
+          "topics": [
+            {
+              "id": "wifi-ssid",
+              "type": "text",
+              "title": "Network name",
+              "body_md": "Ukc-rentals"
+            },
+            {
+              "id": "wifi-pass",
+              "type": "text",
+              "title": "Password",
+              "body_md": "9niners67"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rules-safety",
+      "title": "House rules and safety",
+      "subcategories": [
+        {
+          "id": "rules",
+          "title": "Rules",
+          "topics": [
+            {
+              "id": "quiet-hours",
+              "type": "text",
+              "title": "Quiet hours",
+              "body_md": "11:00 pm to 7:00 am"
+            },
+            {
+              "id": "pets",
+              "type": "text",
+              "title": "Pets",
+              "body_md": "No pets"
+            },
+            {
+              "id": "smoking",
+              "type": "text",
+              "title": "Smoking",
+              "body_md": "No smoking"
+            }
+          ]
+        },
+        {
+          "id": "safety",
+          "title": "Safety and emergencies",
+          "topics": [
+            {
+              "id": "emergency-contacts",
+              "type": "text",
+              "title": "Emergency contacts",
+              "body_md": "Emergency, dial 911. For urgent issues, contact the host at 216-644-3614 or ukcrentals@gmail.com."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "checkout",
+      "title": "Check out",
+      "subcategories": [
+        {
+          "id": "checkout-tasks",
+          "title": "Tasks",
+          "topics": [
+            {
+              "id": "checkout-time",
+              "type": "text",
+              "title": "Check out time",
+              "body_md": "11:00 am"
+            },
+            {
+              "id": "checkout-list",
+              "type": "text",
+              "title": "Checklist",
+              "body_md": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "local-area",
+      "title": "Local area",
+      "subcategories": [
+        {
+          "id": "cafes",
+          "title": "Cafes",
+          "topics": [
+            {
+              "id": "bold-bean-riverside",
+              "type": "text",
+              "map_pin_type": "cafe",
+              "title": "Bold Bean Coffee Roasters, Riverside",
+              "body_md": "House roaster. Consistent espresso.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "southern-grounds-neptune",
+              "type": "text",
+              "map_pin_type": "cafe",
+              "title": "Southern Grounds, Neptune Beach",
+              "body_md": "All day menu. Good for work sessions.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "social-grounds-springfield",
+              "type": "text",
+              "map_pin_type": "cafe",
+              "title": "Social Grounds Coffee, Springfield",
+              "body_md": "Veteran owned. Pour over and cold brew.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "le-petit-paris-southside",
+              "type": "text",
+              "map_pin_type": "cafe",
+              "title": "Le Petit Paris, Southside",
+              "body_md": "French bakery. Strong coffee.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "maple-street-biscuit-san-marco",
+              "type": "text",
+              "map_pin_type": "cafe",
+              "title": "Maple Street Biscuit Company, San Marco",
+              "body_md": "Hearty breakfast. Solid coffee.",
+              "lat": "",
+              "lng": ""
+            }
+          ]
+        },
+        {
+          "id": "breweries-bars",
+          "title": "Breweries and bars",
+          "topics": [
+            {
+              "id": "intuition-ale-works",
+              "type": "text",
+              "map_pin_type": "bar",
+              "title": "Intuition Ale Works, Sports District",
+              "body_md": "Rooftop. Game day vibe.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "aardwolf-brewing",
+              "type": "text",
+              "map_pin_type": "bar",
+              "title": "Aardwolf Brewing Company, San Marco",
+              "body_md": "Sours and barrel aged standouts.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "bold-city-brewery",
+              "type": "text",
+              "map_pin_type": "bar",
+              "title": "Bold City Brewery, Riverside",
+              "body_md": "Jax classic.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "green-room-brewing",
+              "type": "text",
+              "map_pin_type": "bar",
+              "title": "Green Room Brewing, Jax Beach",
+              "body_md": "Surf crowd favorite.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "brix-taphouse",
+              "type": "text",
+              "map_pin_type": "bar",
+              "title": "The Brix Taphouse, Jax Beach",
+              "body_md": "Big tap list near the sand.",
+              "lat": "",
+              "lng": ""
+            }
+          ]
+        },
+        {
+          "id": "day-trips",
+          "title": "Day trips",
+          "topics": [
+            {
+              "id": "st-augustine",
+              "type": "text",
+              "map_pin_type": "attraction",
+              "title": "St. Augustine",
+              "body_md": "45 to 60 min. Historic district. Lighthouse. Food scene.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "amelia-fernandina",
+              "type": "text",
+              "map_pin_type": "attraction",
+              "title": "Amelia Island and Fernandina Beach",
+              "body_md": "45 to 60 min. Victorian downtown. Quiet beaches.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "cumberland-island",
+              "type": "text",
+              "map_pin_type": "attraction",
+              "title": "Cumberland Island, GA",
+              "body_md": "About 90 min to ferry. Wild horses. No cars.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "ichetucknee-ginnie",
+              "type": "text",
+              "map_pin_type": "attraction",
+              "title": "Ichetucknee or Ginnie Springs",
+              "body_md": "2 to 2.5 hours. Tubing. Clear springs.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "gainesville-paynes-prairie",
+              "type": "text",
+              "map_pin_type": "attraction",
+              "title": "Gainesville and Paynes Prairie",
+              "body_md": "About 1.5 hours. Bison and wild horses.",
+              "lat": "",
+              "lng": ""
+            }
+          ]
+        },
+        {
+          "id": "walks-trails",
+          "title": "Walks and trails",
+          "topics": [
+            {
+              "id": "jax-baldwin-rail-trail",
+              "type": "text",
+              "map_pin_type": "trail",
+              "title": "Jacksonville Baldwin Rail Trail",
+              "body_md": "14.5 miles paved. Equestrian path. Multiple trailheads.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "unf-loftin-trails",
+              "type": "text",
+              "map_pin_type": "trail",
+              "title": "UNF Robert W. Loftin Nature Trails",
+              "body_md": "Three loops. Red Maple Boardwalk. Sunrise to sunset.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "hanna-park-trails",
+              "type": "text",
+              "map_pin_type": "trail",
+              "title": "Kathryn Abbey Hanna Park",
+              "body_md": "15 miles of trails. Lakeside loops. Beach access.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "timucuan-preserve",
+              "type": "text",
+              "map_pin_type": "trail",
+              "title": "Timucuan Preserve, Spanish Pond and Fort Caroline",
+              "body_md": "Easy scenic loops.",
+              "lat": "",
+              "lng": ""
+            }
+          ]
+        },
+        {
+          "id": "sightseeing",
+          "title": "Sightseeing",
+          "topics": [
+            {
+              "id": "cummer-museum",
+              "type": "text",
+              "map_pin_type": "museum",
+              "title": "Cummer Museum of Art and Gardens",
+              "body_md": "Riverfront gardens.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "jacksonville-zoo",
+              "type": "text",
+              "map_pin_type": "zoo",
+              "title": "Jacksonville Zoo and Gardens",
+              "body_md": "Family friendly.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "catty-shack-ranch",
+              "type": "text",
+              "map_pin_type": "attraction",
+              "title": "Catty Shack Ranch Wildlife Sanctuary",
+              "body_md": "Evening feedings.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "riverside-arts-market",
+              "type": "text",
+              "map_pin_type": "market",
+              "title": "Riverside Arts Market",
+              "body_md": "Saturdays under the bridge.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "jax-pier",
+              "type": "text",
+              "map_pin_type": "attraction",
+              "title": "Jax Pier area",
+              "body_md": "Easy beach plus dining.",
+              "lat": "",
+              "lng": ""
+            }
+          ]
+        },
+        {
+          "id": "beaches",
+          "title": "Beaches, free vs admission",
+          "topics": [
+            {
+              "id": "jacksonville-beach",
+              "type": "text",
+              "map_pin_type": "beach",
+              "title": "Jacksonville Beach",
+              "body_md": "Beach access is free. Parking is paid March 1 to November 2 on most Fridays to Sundays and some areas. Free Monday to Thursday outside events. Street parking outside the core can be free on weekdays. Check signs.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "neptune-atlantic-beach",
+              "type": "text",
+              "map_pin_type": "beach",
+              "title": "Neptune and Atlantic Beach",
+              "body_md": "Public access is free. Mix of free street parking and posted pay zones near town centers. Check signs.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "little-talbot-island",
+              "type": "text",
+              "map_pin_type": "beach",
+              "title": "Little Talbot Island State Park",
+              "body_md": "Undeveloped beach. 5 dollars per vehicle.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "hanna-park-beach",
+              "type": "text",
+              "map_pin_type": "beach",
+              "title": "Kathryn Abbey Hanna Park",
+              "body_md": "Oceanfront park with trails and splash pad. 5 dollars per car. 3 dollars walk in or bike.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "pumpkin-hill-creek",
+              "type": "text",
+              "map_pin_type": "park",
+              "title": "Pumpkin Hill Creek Preserve",
+              "body_md": "Quiet paddling and hiking. No entrance fee.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "george-crady-pier",
+              "type": "text",
+              "map_pin_type": "pier",
+              "title": "George Crady Fishing Pier",
+              "body_md": "Great sunrise walk and fishing. 2 dollars per person.",
+              "lat": "",
+              "lng": ""
+            }
+          ]
+        },
+        {
+          "id": "quick-picks",
+          "title": "Quick picks by mood",
+          "topics": [
+            {
+              "id": "work-with-wifi",
+              "type": "text",
+              "map_pin_type": "tip",
+              "title": "Work with Wi‑Fi",
+              "body_md": "Southern Grounds or Bold Bean."
+            },
+            {
+              "id": "sunset-beer",
+              "type": "text",
+              "map_pin_type": "tip",
+              "title": "Sunset beer",
+              "body_md": "Green Room or Intuition rooftops."
+            },
+            {
+              "id": "easy-family-walk",
+              "type": "text",
+              "map_pin_type": "tip",
+              "title": "Easy family walk",
+              "body_md": "UNF boardwalk or Jax Baldwin from Camp Milton."
+            },
+            {
+              "id": "full-day-escape",
+              "type": "text",
+              "map_pin_type": "tip",
+              "title": "Full day coastal escape",
+              "body_md": "Amelia Island or Little Talbot."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "book-again",
+      "title": "Book again and direct booking",
+      "subcategories": [
+        {
+          "id": "book-direct",
+          "title": "Book direct",
+          "topics": [
+            {
+              "id": "book-direct-link",
+              "type": "text",
+              "title": "Book direct to save",
+              "body_md": "Book securely on our site. Direct is best for price and support.\n\nhttps://ukcrentals.holidayfuture.com"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "brand": {
+      "logo_url": "https://hostaway-platform.s3.us-west-2.amazonaws.com/account/attachment/102111-mmhWX6PsPWBcYmmPa--zmn6oK6JU3XtUGECOTC6mJoRk-6632d1a4f39b9?rand=y4umgzixjtl",
+      "primary_color": "#D4AF37",
+      "secondary_color": "#111111",
+      "font_stack": "system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif"
+    },
+    "map": {
+      "hidden": false,
+      "zoom": 12
+    },
+    "offline_cache_policy": "precache",
+    "publish": {
+      "mode": "git",
+      "host": "vercel",
+      "github_repo": "",
+      "github_branch": "main"
+    },
+    "admin": {
+      "passcode_hash": ""
+    },
+    "ai": {
+      "suggestions": true
+    },
+    "data_version": ""
+  },
+  "invitations": []
+}
