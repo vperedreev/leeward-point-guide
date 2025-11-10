@@ -17,12 +17,161 @@ const CATEGORY_ICONS = {
   'checkout': 'fa-door-open',
   'local-area': 'fa-map',
   'book-again': 'fa-shopping-bag'
+  ,
+  // Additional icons for new info tiles
+  'house-tour': 'fa-house'
+  ,
+  'how-to': 'fa-lightbulb'
 };
 
 // Draft data used by the admin panel for editing
 let draftData = null;
 // Track currently edited entity for admin panel
 let currentEdit = null;
+
+// Mapping of how-to guide icons to Font Awesome classes
+const HOWTO_ICONS = {
+  'hot-tub': 'fa-hot-tub',
+  'grill': 'fa-fire-burner',
+  'thermostat': 'fa-temperature-high',
+  'kitchen': 'fa-utensils',
+  'laundry': 'fa-soap',
+  'tv': 'fa-tv',
+  'key': 'fa-key'
+};
+
+/** Render the house tour page. Shows image groups and unsorted images. */
+async function loadHouseTour() {
+  const data = await getData();
+  await applyBrand();
+  // Highlight the info tab since house tour lives under info
+  buildNav('info');
+  const main = document.querySelector('main');
+  if (!main) return;
+  main.innerHTML = '';
+  const title = document.createElement('h2');
+  title.textContent = 'House Tour';
+  main.appendChild(title);
+  const ht = data.house_tour || {};
+  const groups = ht.groups || [];
+  groups.forEach(group => {
+    if (group.id === 'unsorted') return; // handle unsorted separately
+    const section = document.createElement('section');
+    const h3 = document.createElement('h3');
+    h3.textContent = group.title;
+    section.appendChild(h3);
+    const gallery = document.createElement('div');
+    gallery.className = 'gallery-grid';
+    if (group.tiles && group.tiles.length > 0) {
+      group.tiles.forEach(tile => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        const img = document.createElement('img');
+        img.src = tile.image_url;
+        img.alt = tile.caption || '';
+        item.appendChild(img);
+        if (tile.caption) {
+          const cap = document.createElement('p');
+          cap.textContent = tile.caption;
+          item.appendChild(cap);
+        }
+        gallery.appendChild(item);
+      });
+    } else {
+      const p = document.createElement('p');
+      p.textContent = 'No images yet.';
+      gallery.appendChild(p);
+    }
+    section.appendChild(gallery);
+    main.appendChild(section);
+  });
+  // Unsorted images
+  const incoming = ht.incoming || [];
+  if (incoming.length > 0) {
+    const section = document.createElement('section');
+    const h3 = document.createElement('h3');
+    h3.textContent = 'Unsorted';
+    section.appendChild(h3);
+    const gallery = document.createElement('div');
+    gallery.className = 'gallery-grid';
+    incoming.forEach(path => {
+      const item = document.createElement('div');
+      item.className = 'gallery-item';
+      const img = document.createElement('img');
+      img.src = path.startsWith('/') ? path : '/' + path;
+      img.alt = '';
+      item.appendChild(img);
+      gallery.appendChild(item);
+    });
+    section.appendChild(gallery);
+    main.appendChild(section);
+  }
+  const qrBtn = document.getElementById('qr-button');
+  if (qrBtn) qrBtn.onclick = showQR;
+}
+
+/** Render the How‑To guide list page. */
+async function loadHowTo() {
+  const data = await getData();
+  await applyBrand();
+  buildNav('info');
+  const main = document.querySelector('main');
+  if (!main) return;
+  main.innerHTML = '';
+  const title = document.createElement('h2');
+  title.textContent = 'How‑To Guides';
+  main.appendChild(title);
+  const items = (data.how_to && data.how_to.items) || [];
+  const grid = document.createElement('div');
+  grid.className = 'icon-grid';
+  items.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'icon-card';
+    const iconEl = document.createElement('i');
+    const faClass = HOWTO_ICONS[item.icon] || 'fa-circle-info';
+    iconEl.className = 'fa-solid ' + faClass;
+    card.appendChild(iconEl);
+    const span = document.createElement('span');
+    span.textContent = item.title;
+    card.appendChild(span);
+    card.onclick = () => {
+      window.location.href = '/howto-item.html?id=' + encodeURIComponent(item.id);
+    };
+    grid.appendChild(card);
+  });
+  main.appendChild(grid);
+  const qrBtn = document.getElementById('qr-button');
+  if (qrBtn) qrBtn.onclick = showQR;
+}
+
+/** Render an individual How‑To guide details page. */
+async function loadHowToItem() {
+  const data = await getData();
+  await applyBrand();
+  buildNav('info');
+  const main = document.querySelector('main');
+  if (!main) return;
+  main.innerHTML = '';
+  const id = getQueryParam('id');
+  const items = (data.how_to && data.how_to.items) || [];
+  const item = items.find(i => i.id === id);
+  if (!item) {
+    main.textContent = 'Guide not found.';
+    return;
+  }
+  const title = document.createElement('h2');
+  title.textContent = item.title;
+  main.appendChild(title);
+  const ol = document.createElement('ol');
+  item.steps.forEach(step => {
+    const li = document.createElement('li');
+    li.textContent = step;
+    ol.appendChild(li);
+  });
+  main.appendChild(ol);
+  const qrBtn = document.getElementById('qr-button');
+  if (qrBtn) qrBtn.onclick = showQR;
+}
 
 /** Fetch and cache the site data. */
 async function getData() {
@@ -189,6 +338,37 @@ async function loadInfo() {
     grid.appendChild(card);
   });
   main.appendChild(grid);
+
+  // Add additional tiles for House Tour and How‑To Guides
+  const extras = document.createElement('div');
+  extras.className = 'icon-grid';
+  // House Tour card
+  const houseCard = document.createElement('div');
+  houseCard.className = 'icon-card';
+  const houseIcon = document.createElement('i');
+  houseIcon.className = 'fa-solid fa-house';
+  houseCard.appendChild(houseIcon);
+  const houseSpan = document.createElement('span');
+  houseSpan.textContent = 'House Tour';
+  houseCard.appendChild(houseSpan);
+  houseCard.onclick = () => {
+    window.location.href = '/house-tour.html';
+  };
+  extras.appendChild(houseCard);
+  // How‑To Guides card
+  const howCard = document.createElement('div');
+  howCard.className = 'icon-card';
+  const howIcon = document.createElement('i');
+  howIcon.className = 'fa-solid fa-lightbulb';
+  howCard.appendChild(howIcon);
+  const howSpan = document.createElement('span');
+  howSpan.textContent = 'How‑To Guides';
+  howCard.appendChild(howSpan);
+  howCard.onclick = () => {
+    window.location.href = '/howto.html';
+  };
+  extras.appendChild(howCard);
+  main.appendChild(extras);
   const qrBtn = document.getElementById('qr-button');
   if (qrBtn) {
     qrBtn.onclick = showQR;
@@ -415,6 +595,208 @@ async function loadAdmin() {
   }
 }
 
+/**
+ * Render an Image Sorter overlay for assigning incoming house tour
+ * images to groups.  Only available in the admin panel.  Allows
+ * dragging images from the Unsorted list into group containers.  On
+ * save, the assignments are written into draftData.house_tour.groups
+ * and removed from draftData.house_tour.incoming.
+ */
+function renderImageSorter() {
+  // Ensure we have draft data and a house_tour section
+  if (!draftData || !draftData.house_tour) {
+    alert('House tour data not loaded.');
+    return;
+  }
+  const ht = draftData.house_tour;
+  // Create overlay
+  let overlay = document.getElementById('image-sorter-overlay');
+  if (overlay) overlay.remove();
+  overlay = document.createElement('div');
+  overlay.id = 'image-sorter-overlay';
+  overlay.className = 'image-sorter-overlay';
+  // Close on click outside
+  overlay.onclick = (e) => {
+    if (e.target === overlay) {
+      overlay.remove();
+    }
+  };
+  // Modal container
+  const modal = document.createElement('div');
+  modal.className = 'image-sorter';
+  overlay.appendChild(modal);
+  // Header
+  const header = document.createElement('h2');
+  header.textContent = 'Image Sorter';
+  modal.appendChild(header);
+  // Description
+  const desc = document.createElement('p');
+  desc.textContent = 'Drag images from Unsorted into the appropriate group. Click Save when finished.';
+  modal.appendChild(desc);
+  // Groups container
+  const groupsContainer = document.createElement('div');
+  groupsContainer.className = 'groups-container';
+  modal.appendChild(groupsContainer);
+  // Build group columns (excluding unsorted)
+  ht.groups.forEach(group => {
+    if (group.id === 'unsorted') return;
+    const gDiv = document.createElement('div');
+    gDiv.className = 'group';
+    gDiv.dataset.groupId = group.id;
+    // Header
+    const gHeader = document.createElement('div');
+    gHeader.className = 'group-header';
+    gHeader.textContent = group.title;
+    gDiv.appendChild(gHeader);
+    // Existing tiles in group (if any)
+    const tileList = document.createElement('div');
+    tileList.className = 'tile-list';
+    // Populate existing assigned tiles
+    if (group.tiles) {
+      group.tiles.forEach(tile => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'image-item';
+        itemDiv.draggable = true;
+        itemDiv.dataset.imagePath = tile.image_url;
+        itemDiv.dataset.groupId = group.id;
+        const img = document.createElement('img');
+        img.src = tile.image_url;
+        img.alt = tile.caption || '';
+        itemDiv.appendChild(img);
+        tileList.appendChild(itemDiv);
+      });
+    }
+    gDiv.appendChild(tileList);
+    // Drag events
+    gDiv.addEventListener('dragover', e => {
+      e.preventDefault();
+    });
+    gDiv.addEventListener('drop', e => {
+      e.preventDefault();
+      const path = e.dataTransfer.getData('text/plain');
+      if (!path) return;
+      // Create tile in UI
+      const newItem = document.createElement('div');
+      newItem.className = 'image-item';
+      newItem.draggable = true;
+      newItem.dataset.imagePath = path;
+      newItem.dataset.groupId = group.id;
+      const imgEl = document.createElement('img');
+      imgEl.src = path.startsWith('/') ? path : '/' + path;
+      imgEl.alt = '';
+      newItem.appendChild(imgEl);
+      // Append to this group
+      tileList.appendChild(newItem);
+      // Remove from unsorted UI
+      const sourceEl = groupsContainer.querySelector(`.unsorted .image-item[data-image-path="${path}"]`);
+      if (sourceEl) sourceEl.remove();
+      // Update draftData assignments
+      // Remove from incoming
+      const idx = ht.incoming.findIndex(p => p === path || p === '/' + path);
+      if (idx !== -1) {
+        ht.incoming.splice(idx, 1);
+      }
+      // Add to group's tiles if not already present
+      const tileObj = { image_url: path.startsWith('/') ? path : '/' + path, caption: '' };
+      if (!group.tiles) group.tiles = [];
+      group.tiles.push(tileObj);
+    });
+    groupsContainer.appendChild(gDiv);
+  });
+  // Unsorted column
+  const unsortedDiv = document.createElement('div');
+  unsortedDiv.className = 'group unsorted';
+  unsortedDiv.dataset.groupId = 'unsorted';
+  const unsortedHeader = document.createElement('div');
+  unsortedHeader.className = 'group-header';
+  unsortedHeader.textContent = 'Unsorted';
+  unsortedDiv.appendChild(unsortedHeader);
+  const unsortedList = document.createElement('div');
+  unsortedList.className = 'tile-list';
+  ht.incoming.forEach(path => {
+    const item = document.createElement('div');
+    item.className = 'image-item';
+    item.draggable = true;
+    item.dataset.imagePath = path;
+    const img = document.createElement('img');
+    img.src = path.startsWith('/') ? path : '/' + path;
+    img.alt = '';
+    item.appendChild(img);
+    unsortedList.appendChild(item);
+  });
+  unsortedDiv.appendChild(unsortedList);
+  // Drag start for unsorted items
+  unsortedDiv.addEventListener('dragstart', e => {
+    const target = e.target.closest('.image-item');
+    if (!target) return;
+    e.dataTransfer.setData('text/plain', target.dataset.imagePath);
+  });
+  // Drag events for unsorted (allow dragging back? optional)
+  unsortedDiv.addEventListener('dragover', e => {
+    e.preventDefault();
+  });
+  unsortedDiv.addEventListener('drop', e => {
+    e.preventDefault();
+    const path = e.dataTransfer.getData('text/plain');
+    if (!path) return;
+    // Move from group back to unsorted UI
+    const allGroupItems = groupsContainer.querySelectorAll('.group:not(.unsorted) .image-item');
+    allGroupItems.forEach(item => {
+      if (item.dataset.imagePath === path) {
+        // Remove from group's UI
+        item.remove();
+      }
+    });
+    // Add to unsorted if not present
+    const exists = unsortedList.querySelector(`.image-item[data-image-path="${path}"]`);
+    if (!exists) {
+      const newItem = document.createElement('div');
+      newItem.className = 'image-item';
+      newItem.draggable = true;
+      newItem.dataset.imagePath = path;
+      const imgEl = document.createElement('img');
+      imgEl.src = path.startsWith('/') ? path : '/' + path;
+      imgEl.alt = '';
+      newItem.appendChild(imgEl);
+      unsortedList.appendChild(newItem);
+    }
+    // Update draftData assignments: remove from all group tiles and add back to incoming
+    ht.groups.forEach(g => {
+      if (g.id === 'unsorted') return;
+      if (g.tiles) {
+        const index = g.tiles.findIndex(t => t.image_url === path || t.image_url === '/' + path);
+        if (index !== -1) {
+          g.tiles.splice(index, 1);
+        }
+      }
+    });
+    // Add back to incoming if not exist
+    if (!ht.incoming.includes(path) && !ht.incoming.includes('/' + path)) {
+      ht.incoming.push(path);
+    }
+  });
+  groupsContainer.appendChild(unsortedDiv);
+  // Save & Close buttons
+  const actionsDiv = document.createElement('div');
+  actionsDiv.style.marginTop = '1rem';
+  const saveBtn = document.createElement('button');
+  saveBtn.textContent = 'Save';
+  saveBtn.onclick = () => {
+    // Save assignments already updated in drop events
+    alert('Assignments saved in draft. Remember to Publish to commit changes.');
+    overlay.remove();
+  };
+  actionsDiv.appendChild(saveBtn);
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = 'Close';
+  closeBtn.onclick = () => {
+    overlay.remove();
+  };
+  actionsDiv.appendChild(closeBtn);
+  modal.appendChild(actionsDiv);
+  document.body.appendChild(overlay);
+}
+
 /** Generate simple suggestions based on missing entries in the data. */
 function generateSuggestions(data) {
   const suggestions = [];
@@ -520,6 +902,14 @@ function initAdminPanel() {
     rollbackSite();
   };
   controls.appendChild(rollbackBtn);
+
+  // Image Sorter button
+  const sorterBtn = document.createElement('button');
+  sorterBtn.textContent = 'Image Sorter';
+  sorterBtn.onclick = () => {
+    renderImageSorter();
+  };
+  controls.appendChild(sorterBtn);
   main.appendChild(controls);
   // Generate suggestions section
   const suggestionsDiv = document.createElement('div');
@@ -694,6 +1084,9 @@ async function publishSite(updateData = false) {
   }
   const apiBase = 'https://api.github.com';
   if (updateData && draftData) {
+    // Bump data_version prior to publishing
+    if (!draftData.settings) draftData.settings = {};
+    draftData.settings.data_version = new Date().toISOString();
     // Publish updated data.json to the repository
     try {
       // Fetch current file to obtain its SHA
@@ -822,6 +1215,9 @@ document.addEventListener('DOMContentLoaded', () => {
     case 'search': loadSearch(); break;
     case 'map': loadMap(); break;
     case 'admin': loadAdmin(); break;
+    case 'house-tour': loadHouseTour(); break;
+    case 'howto': loadHowTo(); break;
+    case 'howto-item': loadHowToItem(); break;
   }
   const qrCloseBtn = document.getElementById('qr-close');
   if (qrCloseBtn) {

@@ -3,7 +3,7 @@
  * precaches the site shell and returns cached responses when offline.
  */
 
-const CACHE_NAME = 'leeward-point-cache-v1';
+const CACHE_NAME = 'leeward-point-cache-v3';
 const PRECACHE_URLS = [
   '/',
   '/index.html',
@@ -17,7 +17,18 @@ const PRECACHE_URLS = [
   '/data.json',
   '/manifest.json',
   '/icon-192.png',
-  '/icon-512.png'
+  '/icon-512.png',
+  // new pages for house tour and how-to
+  '/house-tour.html',
+  '/howto.html',
+  '/howto-item.html',
+  // pre-cache new incoming images to ensure offline availability
+  '/images/_incoming/0A740C08-D444-4C26-AC52-D4C65B1C6377.png',
+  '/images/_incoming/0E8D1C7E-E189-4134-A62C-54BEAC462290.png',
+  '/images/_incoming/0EA16F1C-6C3E-4E2A-80A9-3AB6CAE0186D.jpeg',
+  '/images/_incoming/0EE26473-943E-4CA7-922F-7804FBF1A4E5.jpeg',
+  '/images/_incoming/0F831DD5-FF18-4C1B-AF79-6870C1FBF2D.jpeg',
+  '/images/_incoming/1A023195-03C2-45C2-8BC3-EE9A360D5381.jpeg'
 ];
 
 self.addEventListener('install', event => {

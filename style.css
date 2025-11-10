@@ -197,6 +197,20 @@ main {
   padding: 1rem;
 }
 
+/* Gallery grid for House Tour */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
 .category,
 .subcategory {
   margin-bottom: 1.5rem;
@@ -217,6 +231,62 @@ main {
 
 .list li {
   margin: 0.25rem 0;
+}
+
+/* Image Sorter modal styles */
+.image-sorter-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.image-sorter {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  max-height: 90vh;
+  overflow-y: auto;
+  width: 90%;
+}
+.image-sorter h2 {
+  margin-top: 0;
+}
+.groups-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.group {
+  flex: 1 1 200px;
+  border: 2px dashed var(--primary-color);
+  border-radius: 4px;
+  padding: 0.5rem;
+  min-height: 200px;
+  background-color: #f9f9f9;
+}
+.group-header {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.image-item {
+  margin-bottom: 0.5rem;
+  cursor: grab;
+}
+.image-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+.tile-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 a.item-link {
