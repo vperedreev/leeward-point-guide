@@ -24,6 +24,35 @@ const CATEGORY_ICONS = {
   'how-to': 'fa-lightbulb'
 };
 
+/** Convert a string into a URL friendly slug consisting of lowercase
+ * letters and numbers separated by hyphens.  This helper is used
+ * to generate stable identifiers for topics so they can be linked
+ * between pages. */
+function slugify(str) {
+  return String(str || '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+/** Derive a short description from a longer markdown body.  It will
+ * take the first one or two sentences and collapse whitespace to
+ * produce a concise summary. */
+function shortDescription(md) {
+  if (!md) return '';
+  // Remove markdown emphasis and collapse whitespace
+  const plain = md
+    .replace(/\*\*|\*/g, '')
+    .replace(/\n+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const sentences = plain.split(/\.\s*/);
+  if (sentences.length === 0) return plain;
+  const summary = sentences.slice(0, 2).join('. ');
+  return summary + (sentences.length > 2 ? '...' : '');
+}
+
 // Draft data used by the admin panel for editing
 let draftData = null;
 // Track currently edited entity for admin panel
@@ -488,24 +517,37 @@ async function loadSubcategory() {
       topics.forEach(topic => {
         const card = document.createElement('div');
         card.className = 'topic-card';
-        // Optional image if provided
+        // Optional image if provided. Prefer a custom image_url, otherwise use the first entry from the
+        // images array (added for local area topics).  This ensures each card shows a relevant
+        // thumbnail without assuming a particular property name.
+        let imageSrc = null;
         if (topic.image_url) {
+          imageSrc = topic.image_url;
+        } else if (Array.isArray(topic.images) && topic.images.length > 0) {
+          imageSrc = topic.images[0];
+        }
+        if (imageSrc) {
           const img = document.createElement('img');
-          img.src = topic.image_url;
+          img.src = imageSrc;
           img.alt = topic.title;
           card.appendChild(img);
         }
+        // Title
         const ttitle = document.createElement('h4');
         ttitle.textContent = topic.title;
         card.appendChild(ttitle);
-        if (topic.body_md || topic.description) {
+        // Short description either from topic.short_desc or derived from body_md/description
+        const descText = topic.short_desc || shortDescription(topic.body_md || topic.description || '');
+        if (descText) {
           const d = document.createElement('p');
-          d.textContent = topic.body_md || topic.description;
+          d.textContent = descText;
           card.appendChild(d);
         }
-        // Clicking a topic opens the map highlighting this location
+        // Clicking a topic opens a dedicated details page instead of the map.  Use a slug
+        // derived from the title to identify the topic across pages.
         card.onclick = () => {
-          window.location.href = `/map.html?topic=${encodeURIComponent(topic.id)}`;
+          const slug = slugify(topic.title);
+          window.location.href = `/topic.html?topic=${encodeURIComponent(slug)}`;
         };
         grid.appendChild(card);
       });
@@ -607,7 +649,8 @@ async function loadMap() {
     });
   }
   const params = new URLSearchParams(window.location.search);
-  const highlightId = params.get('topic');
+  // The topic query parameter is a slug identifying which marker should be opened.
+  const highlightSlug = params.get('topic');
   // Property coordinates
   const coords = data.guide.coordinates || { lat: 0, lng: 0 };
   // Create map
@@ -648,6 +691,7 @@ async function loadMap() {
           lng = coords.lng + offsetLng;
           idx++;
         }
+        // Determine marker colour based on pin type
         const color = PIN_COLORS[topic.map_pin_type] || '#3498db';
         const marker = L.circleMarker([lat, lng], {
           radius: 8,
@@ -655,16 +699,19 @@ async function loadMap() {
           fillColor: color,
           fillOpacity: 0.8
         }).addTo(map);
+        // Compute distance in miles
         const distKm = computeDistance(coords.lat, coords.lng, lat, lng);
         const distMi = (distKm * 0.621371).toFixed(1);
         marker.bindPopup(`<strong>${topic.title}</strong><br>${distMi} mi from house`);
-        markers.push({ id: topic.id, marker: marker });
+        // Compute a slug for this topic to identify it
+        const slug = slugify(topic.title);
+        markers.push({ slug: slug, marker: marker });
       });
     });
   });
-  // Highlight a specific topic if provided
-  if (highlightId) {
-    const m = markers.find(x => x.id === highlightId);
+  // Highlight a specific topic marker if the slug was provided
+  if (highlightSlug) {
+    const m = markers.find(x => x.slug === highlightSlug);
     if (m) {
       m.marker.openPopup();
       map.setView(m.marker.getLatLng(), 14);
@@ -688,6 +735,100 @@ async function loadMap() {
   if (qrBtn) {
     qrBtn.onclick = showQR;
   }
+}
+
+/** Render a detailed page for a single local-area topic.  This page
+ * displays the full description, address and a link to view the
+ * location on the map.  The topic is identified by a slug in the
+ * query string. */
+async function loadTopic() {
+  const data = await getData();
+  await applyBrand();
+  buildNav('info');
+  const main = document.querySelector('main');
+  if (!main) return;
+  main.innerHTML = '';
+  const slug = getQueryParam('topic');
+  if (!slug) {
+    main.textContent = 'Location not found.';
+    return;
+  }
+  let found = null;
+  let parentCat = null;
+  let parentSubcat = null;
+  outer: for (const cat of data.categories || []) {
+    for (const sub of cat.subcategories || []) {
+      for (const topic of sub.topics || []) {
+        if (slugify(topic.title) === slug) {
+          found = topic;
+          parentCat = cat;
+          parentSubcat = sub;
+          break outer;
+        }
+      }
+    }
+  }
+  if (!found) {
+    main.textContent = 'Location not found.';
+    return;
+  }
+  // Back link to subcategory
+  if (parentSubcat) {
+    const back = document.createElement('a');
+    back.href = `/subcategory.html?id=${encodeURIComponent(parentSubcat.id)}`;
+    back.textContent = '← Back';
+    back.className = 'back-link';
+    main.appendChild(back);
+  }
+  // Title
+  const titleEl = document.createElement('h2');
+  titleEl.textContent = found.title;
+  main.appendChild(titleEl);
+  // Optional image(s)
+  if (Array.isArray(found.images) && found.images.length > 0) {
+    const gallery = document.createElement('div');
+    gallery.className = 'detail-gallery';
+    found.images.forEach(src => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = found.title;
+      gallery.appendChild(img);
+    });
+    main.appendChild(gallery);
+  } else if (found.image_url) {
+    const img = document.createElement('img');
+    img.src = found.image_url;
+    img.alt = found.title;
+    img.style.maxWidth = '100%';
+    img.style.borderRadius = '8px';
+    img.style.marginBottom = '1rem';
+    main.appendChild(img);
+  }
+  // Full description: split markdown by line breaks and output paragraphs
+  const body = found.body_md || found.description || '';
+  const paragraphs = body.split(/\n+/);
+  paragraphs.forEach(line => {
+    const text = line.trim();
+    if (!text) return;
+    const p = document.createElement('p');
+    p.textContent = text;
+    main.appendChild(p);
+  });
+  // Address if provided
+  if (found.address) {
+    const addr = document.createElement('p');
+    addr.innerHTML = `<strong>Address:</strong> <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(found.address)}" target="_blank" rel="noopener">${found.address}</a>`;
+    main.appendChild(addr);
+  }
+  // Button to view on map
+  const mapBtn = document.createElement('a');
+  mapBtn.href = `/map.html?topic=${encodeURIComponent(slug)}`;
+  mapBtn.textContent = 'View on Map';
+  mapBtn.className = 'btn-view-map';
+  main.appendChild(mapBtn);
+  // Reattach QR code handler if exists
+  const qrBtn = document.getElementById('qr-button');
+  if (qrBtn) qrBtn.onclick = showQR;
 }
 
 /** Hash a passcode using SHA-256 via the browser crypto API. Returns
@@ -1380,6 +1521,7 @@ document.addEventListener('DOMContentLoaded', () => {
     case 'house-tour': loadHouseTour(); break;
     case 'howto': loadHowTo(); break;
     case 'howto-item': loadHowToItem(); break;
+    case 'topic': loadTopic(); break;
   }
   const qrCloseBtn = document.getElementById('qr-close');
   if (qrCloseBtn) {
