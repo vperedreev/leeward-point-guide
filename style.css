@@ -6,9 +6,21 @@
 :root {
   /* Primary and secondary colours from the data. These values will be
      replaced at runtime by script.js. */
-  --primary-color: #D4AF37;
+  /* Brand colours for the refreshed design.
+     Primary is used for backgrounds, secondary for text, and accent for highlights. */
+  --primary-color: #ffffff;
   --secondary-color: #111111;
+  --accent-color: #D4AF37;
   --font-stack: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+  /* Background colour for cards and panels */
+  --card-bg-color: #ffffff;
+
+  /* Dedicated colours for the header and footer.  The header typically uses
+     the accent colour for contrast, while the footer (bottom navigation)
+     uses the secondary colour to anchor the UI.  */
+  --header-bg-color: var(--accent-color);
+  --footer-bg-color: var(--secondary-color);
 }
 
 body {
@@ -77,27 +89,38 @@ body {
 
 .icon-card {
   flex: 1 1 calc(50% - 1rem);
-  background: var(--primary-color);
+  /* Card backgrounds are white with a subtle border and shadow */
+  background: var(--card-bg-color, #ffffff);
   color: var(--secondary-color);
-  border-radius: 10px;
-  padding: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 16px;
+  padding: 1.5rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   cursor: pointer;
+  /* Subtle shadow to lift the card off the background */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .icon-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .icon-card i {
-  font-size: 2rem;
+  font-size: 2.2rem;
   margin-bottom: 0.5rem;
+  /* Use the accent colour for icons to reinforce the gold theme */
+  color: var(--accent-color);
+}
+
+.icon-card span {
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 /* Admin panel styles */
@@ -165,12 +188,58 @@ body {
 
 header {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem;
-  background: var(--primary-color);
+  padding: 0.75rem 1rem;
+  /* Use the accent colour for the header background and the secondary colour for the text and icons.
+     This creates a warm metallic bar with dark lettering and icons. */
+  background: var(--header-bg-color, var(--accent-color));
   color: var(--secondary-color);
+}
+
+/* Header sections for logo/title and contact actions */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.header-left .logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+.header-left span {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.header-right a {
+  /* Contact icons in the header use the secondary colour for contrast on the gold background. */
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+.header-right a:hover {
+  opacity: 0.7;
+}
+.header-right button#qr-button {
+  /* Style the QR button as a pill outline button.  It becomes filled on hover. */
+  background: transparent;
+  color: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.header-right button#qr-button:hover {
+  background: var(--secondary-color);
+  color: var(--primary-color);
 }
 
 header h1 {
@@ -178,23 +247,44 @@ header h1 {
   font-size: 1.4rem;
 }
 
+/* Bottom navigation bar.  Position it fixed at the bottom and
+   distribute items evenly.  The icons use the accent colour while
+   labels use the primary colour. */
 nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   display: flex;
-  gap: 1rem;
+  justify-content: space-around;
+  background: var(--footer-bg-color, var(--secondary-color));
+  padding: 0.5rem 0;
+  z-index: 100;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
-
 nav a {
-  color: var(--secondary-color);
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
   text-decoration: none;
-  font-weight: bold;
+  font-size: 0.7rem;
 }
-
+nav a i {
+  font-size: 1.2rem;
+  margin-bottom: 0.25rem;
+  color: var(--accent-color);
+}
 nav a.active {
-  text-decoration: underline;
+  color: var(--accent-color);
 }
 
 main {
   padding: 1rem;
+  /* Provide space for the fixed bottom nav bar so content isn't hidden */
+  padding-bottom: 4rem;
 }
 
 /* Gallery grid for House Tour */
@@ -290,7 +380,7 @@ main {
 }
 
 a.item-link {
-  color: var(--primary-color);
+  color: var(--accent-color);
   cursor: pointer;
 }
 
@@ -320,7 +410,9 @@ a.item-link {
 }
 
 button {
-  background: var(--primary-color);
+  /* Use the accent colour for buttons so they stand out against the
+     primarily white interface */
+  background: var(--accent-color);
   color: var(--secondary-color);
   border: none;
   padding: 0.5rem 1rem;
@@ -370,21 +462,24 @@ textarea {
 
 .subcategory-card {
   background-color: var(--card-bg-color, #ffffff);
-  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
   padding: 1rem;
   text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .subcategory-card:hover {
   transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .subcategory-card i {
   font-size: 2rem;
   margin-bottom: 0.5rem;
+  color: var(--accent-color);
 }
 
 /* Grid for topics within a subcategory */
@@ -397,25 +492,76 @@ textarea {
 
 .topic-card {
   background-color: var(--card-bg-color, #ffffff);
-  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
   padding: 1rem;
   text-align: left;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
   display: flex;
   flex-direction: column;
 }
 
+/* Chevron on topic cards to indicate navigation */
+.topic-card .fa-chevron-right {
+  margin-left: auto;
+  color: var(--accent-color);
+  font-size: 1rem;
+  align-self: center;
+}
+
+/* Back link used on detail pages */
+.back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+.back-link:hover {
+  text-decoration: underline;
+}
+
+/* Gallery of images on detail pages */
+.detail-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.detail-gallery img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Button to view on map */
+.btn-view-map {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+}
+.btn-view-map:hover {
+  opacity: 0.9;
+}
+
 .topic-card:hover {
   transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .topic-card img {
   width: 100%;
-  height: 100px;
+  height: 120px;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 8px;
   margin-bottom: 0.5rem;
 }
 

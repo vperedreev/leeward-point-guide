@@ -3,7 +3,9 @@
  * precaches the site shell and returns cached responses when offline.
  */
 
-const CACHE_NAME = 'leeward-point-cache-v4';
+// Bump the cache name whenever assets change to ensure clients pick up
+// the latest version. v7 updates the UI design and colours.
+const CACHE_NAME = 'leeward-point-cache-v7';
 const PRECACHE_URLS = [
   '/',
   '/index.html',
@@ -22,6 +24,7 @@ const PRECACHE_URLS = [
   '/house-tour.html',
   '/howto.html',
   '/howto-item.html',
+  '/topic.html',
   // pre-cache new incoming images to ensure offline availability
   '/images/_incoming/0A740C08-D444-4C26-AC52-D4C65B1C6377.png',
   '/images/_incoming/0E8D1C7E-E189-4134-A62C-54BEAC462290.png',
@@ -29,6 +32,13 @@ const PRECACHE_URLS = [
   '/images/_incoming/0EE26473-943E-4CA7-922F-7804FBF1A4E5.jpeg',
   '/images/_incoming/0F831DD5-FF18-4C1B-AF79-6870C1FBF2D.jpeg',
   '/images/_incoming/1A023195-03C2-45C2-8BC3-EE9A360D5381.jpeg'
+  ,
+  // New generic local-area images to support the updated local-area pages
+  '/images/local_area/restaurant.png',
+  '/images/local_area/cafe.png',
+  '/images/local_area/bar_brewery.png',
+  '/images/local_area/trail.png',
+  '/images/local_area/beach.png'
 ];
 
 self.addEventListener('install', event => {
