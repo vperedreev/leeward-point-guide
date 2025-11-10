@@ -311,42 +311,6 @@
           "title": "Bars and breweries",
           "topics": [
             {
-              "id": "intuition-ale-works",
-              "type": "text",
-              "map_pin_type": "bar",
-              "title": "Intuition Ale Works, Sports District",
-              "body_md": "Rooftop. Game day vibe.",
-              "lat": "",
-              "lng": ""
-            },
-            {
-              "id": "aardwolf-brewing",
-              "type": "text",
-              "map_pin_type": "bar",
-              "title": "Aardwolf Brewing Company, San Marco",
-              "body_md": "Sours and barrel aged standouts.",
-              "lat": "",
-              "lng": ""
-            },
-            {
-              "id": "bold-city-brewery",
-              "type": "text",
-              "map_pin_type": "bar",
-              "title": "Bold City Brewery, Riverside",
-              "body_md": "Jax classic.",
-              "lat": "",
-              "lng": ""
-            },
-            {
-              "id": "green-room-brewing",
-              "type": "text",
-              "map_pin_type": "bar",
-              "title": "Green Room Brewing, Jax Beach",
-              "body_md": "Surf crowd favorite.",
-              "lat": "",
-              "lng": ""
-            },
-            {
               "id": "brix-taphouse",
               "type": "text",
               "map_pin_type": "bar",
@@ -592,6 +556,48 @@
               "map_pin_type": "tip",
               "title": "Full day coastal escape",
               "body_md": "Amelia Island or Little Talbot."
+            }
+          ]
+        },
+        {
+          "id": "breweries",
+          "title": "Breweries",
+          "topics": [
+            {
+              "id": "aardwolf-brewing",
+              "type": "text",
+              "map_pin_type": "bar",
+              "title": "Aardwolf Brewing Company, San Marco",
+              "body_md": "Sours and barrel aged standouts.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "bold-city-brewery",
+              "type": "text",
+              "map_pin_type": "bar",
+              "title": "Bold City Brewery, Riverside",
+              "body_md": "Jax classic.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "green-room-brewing",
+              "type": "text",
+              "map_pin_type": "bar",
+              "title": "Green Room Brewing, Jax Beach",
+              "body_md": "Surf crowd favorite.",
+              "lat": "",
+              "lng": ""
+            },
+            {
+              "id": "intuition-ale-works",
+              "type": "text",
+              "map_pin_type": "bar",
+              "title": "Intuition Ale Works, Sports District",
+              "body_md": "Rooftop. Game day vibe.",
+              "lat": "",
+              "lng": ""
             }
           ]
         }
