@@ -16,6 +16,13 @@
   /* Background colour for cards and panels */
   --card-bg-color: #ffffff;
 
+  /* Define standard heights for the header and bottom nav bar.  These values
+     control the thickness of the gold bar at the top and the dark menu bar
+     at the bottom.  By centralising them as variables we can reuse them
+     throughout the stylesheet and easily adjust the UI scale on mobile. */
+  --header-height: 4.5rem;
+  --nav-height: 4.5rem;
+
   /* Dedicated colours for the header and footer.  The header typically uses
      the accent colour for contrast, while the footer (bottom navigation)
      uses the secondary colour to anchor the UI.  */
@@ -34,7 +41,10 @@ body {
 .hero {
   position: relative;
   width: 100%;
-  height: 320px;
+  /* Make the hero fill the available viewport height minus the header and nav.
+     This creates a full-screen effect on mobile devices while leaving space
+     for the persistent top and bottom bars. */
+  min-height: calc(100vh - var(--header-height) - var(--nav-height));
   background-size: cover;
   background-position: center;
   display: flex;
@@ -43,6 +53,10 @@ body {
   align-items: center;
   color: #ffffff;
   text-align: center;
+  /* Reserve space at the top and bottom for the fixed header and nav so the
+     hero content doesn't hide behind them. */
+  padding-top: var(--header-height);
+  padding-bottom: var(--nav-height);
 }
 
 .hero::after {
@@ -191,9 +205,10 @@ header {
   flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 1rem;
-  /* Use the accent colour for the header background and the secondary colour for the text and icons.
-     This creates a warm metallic bar with dark lettering and icons. */
+  /* Fix the header height to the value defined in --header-height.  This ensures
+     the top bar appears thick on mobile devices and matches the bottom nav. */
+  height: var(--header-height);
+  padding: 0 1rem;
   background: var(--header-bg-color, var(--accent-color));
   color: var(--secondary-color);
 }
@@ -205,13 +220,15 @@ header {
   gap: 0.5rem;
 }
 .header-left .logo {
-  width: 32px;
-  height: 32px;
+  /* Increase logo size for the thicker header */
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
 }
 .header-left span {
   font-weight: bold;
-  font-size: 1.2rem;
+  /* Increase the title size to complement the larger header */
+  font-size: 1.4rem;
 }
 .header-right {
   display: flex;
@@ -222,7 +239,8 @@ header {
   /* Contact icons in the header use the secondary colour for contrast on the gold background. */
   color: var(--secondary-color);
   text-decoration: none;
-  font-size: 1.2rem;
+  /* Increase contact icon size */
+  font-size: 1.4rem;
 }
 .header-right a:hover {
   opacity: 0.7;
@@ -232,9 +250,10 @@ header {
   background: transparent;
   color: var(--secondary-color);
   border: 1px solid var(--secondary-color);
-  padding: 0.3rem 0.6rem;
-  border-radius: 20px;
-  font-size: 0.8rem;
+  /* Increase padding and radius to better fit the taller header */
+  padding: 0.4rem 0.9rem;
+  border-radius: 24px;
+  font-size: 0.9rem;
   cursor: pointer;
 }
 .header-right button#qr-button:hover {
@@ -258,7 +277,10 @@ nav {
   display: flex;
   justify-content: space-around;
   background: var(--footer-bg-color, var(--secondary-color));
-  padding: 0.5rem 0;
+  /* Match the nav height to the variable.  This makes the bottom bar thicker
+     and visually balanced with the top bar. */
+  height: var(--nav-height);
+  padding: 0;
   z-index: 100;
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -270,11 +292,13 @@ nav a {
   justify-content: center;
   color: var(--primary-color);
   text-decoration: none;
-  font-size: 0.7rem;
+  /* Increase font size for labels to improve legibility on a taller bar */
+  font-size: 0.85rem;
 }
 nav a i {
-  font-size: 1.2rem;
-  margin-bottom: 0.25rem;
+  /* Increase icon size to balance with the thicker bar */
+  font-size: 1.6rem;
+  margin-bottom: 0.2rem;
   color: var(--accent-color);
 }
 nav a.active {
@@ -284,7 +308,8 @@ nav a.active {
 main {
   padding: 1rem;
   /* Provide space for the fixed bottom nav bar so content isn't hidden */
-  padding-bottom: 4rem;
+  /* Adjust bottom padding to ensure content doesn't overlap with the taller nav */
+  padding-bottom: calc(var(--nav-height) + 1rem);
 }
 
 /* Gallery grid for House Tour */
