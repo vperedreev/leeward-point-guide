@@ -357,3 +357,76 @@ textarea {
     margin-top: 0.5rem;
   }
 }
+
+/* === Local area subcategory and topic grids === */
+
+/* Grid for subcategories within a category (e.g. local area) */
+.subcategory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.subcategory-card {
+  background-color: var(--card-bg-color, #ffffff);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.subcategory-card:hover {
+  transform: translateY(-2px);
+}
+
+.subcategory-card i {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Grid for topics within a subcategory */
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.topic-card {
+  background-color: var(--card-bg-color, #ffffff);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: left;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.topic-card:hover {
+  transform: translateY(-2px);
+}
+
+.topic-card img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.topic-card h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.topic-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #444;
+  flex-grow: 1;
+}

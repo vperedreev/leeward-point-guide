@@ -40,6 +40,36 @@ const HOWTO_ICONS = {
   'key': 'fa-key'
 };
 
+// Icons for local area subcategories (restaurants, cafes, bars, etc.)
+const SUBCATEGORY_ICONS = {
+  'restaurants': 'fa-utensils',
+  'cafes': 'fa-mug-saucer',
+  'bars': 'fa-beer',
+  'breweries': 'fa-beer-mug-empty',
+  'day-trips': 'fa-car',
+  'walks-trails': 'fa-person-walking',
+  'sightseeing': 'fa-binoculars',
+  'beaches': 'fa-umbrella-beach',
+  'quick-picks': 'fa-star'
+};
+
+// Colours for map pins based on map_pin_type
+const PIN_COLORS = {
+  'restaurant': '#c0392b',    // red
+  'cafe': '#2980b9',          // blue
+  'bar': '#e67e22',           // orange
+  'brewery': '#d35400',       // dark orange
+  'trail': '#16a085',         // teal
+  'attraction': '#8e44ad',    // purple
+  'museum': '#8e44ad',
+  'zoo': '#8e44ad',
+  'market': '#f1c40f',        // yellow
+  'pier': '#27ae60',          // green
+  'beach': '#3498db',         // light blue
+  'park': '#27ae60',          // green
+  'tip': '#7f8c8d'            // grey
+};
+
 /** Render the house tour page. Shows image groups and unsorted images. */
 async function loadHouseTour() {
   const data = await getData();
@@ -331,9 +361,13 @@ async function loadInfo() {
     const span = document.createElement('span');
     span.textContent = cat.title;
     card.appendChild(span);
-    // Click handler to open subcategory list
+    // Click handler to open subcategory or category page
     card.onclick = () => {
-      window.location.href = `/subcategory.html?id=${encodeURIComponent(cat.subcategories && cat.subcategories[0]?.id || '')}`;
+      // Navigate using the category id.  If the category has multiple
+      // subcategories (e.g. local area), the subcategory page will
+      // display a grid of those subcategories.  Otherwise it will
+      // fall back to the single subcategory’s topics.
+      window.location.href = `/subcategory.html?id=${encodeURIComponent(cat.id)}`;
     };
     grid.appendChild(card);
   });
@@ -384,43 +418,101 @@ async function loadSubcategory() {
   const main = document.querySelector('main');
   if (!main) return;
   main.innerHTML = '';
-  const subId = getQueryParam('id');
-  let subcategory;
-  outer: for (const cat of data.categories || []) {
-    for (const sub of cat.subcategories || []) {
-      if (sub.id === subId) { subcategory = sub; break outer; }
+  const id = getQueryParam('id');
+  // Determine whether id refers to a category or a subcategory
+  let category = null;
+  let subcategory = null;
+  // Find a matching category
+  if (data.categories) {
+    for (const cat of data.categories) {
+      if (cat.id === id) {
+        category = cat;
+        break;
+      }
     }
   }
-  if (!subcategory) {
-    main.textContent = 'Subcategory not found.';
-    return;
-  }
-  const title = document.createElement('h2');
-  title.textContent = subcategory.title;
-  main.appendChild(title);
-  // Use topics array from data instead of items
-  const topics = subcategory.topics || subcategory.items || [];
-  if (!topics || topics.length === 0) {
-    const p = document.createElement('p');
-    p.textContent = 'There are no entries for this section yet.';
-    main.appendChild(p);
-  } else {
-    const ul = document.createElement('ul');
-    ul.classList.add('list');
-    topics.forEach(topic => {
-      const li = document.createElement('li');
-      const h = document.createElement('h4');
-      h.textContent = topic.title;
-      li.appendChild(h);
-      if (topic.body_md || topic.description) {
-        const d = document.createElement('p');
-        d.textContent = topic.body_md || topic.description;
-        li.appendChild(d);
+  // Find a matching subcategory only if no category matched
+  if (!category) {
+    outer: if (data.categories) {
+      for (const cat of data.categories) {
+        for (const sub of cat.subcategories || []) {
+          if (sub.id === id) { subcategory = sub; break outer; }
+        }
       }
-      ul.appendChild(li);
-    });
-    main.appendChild(ul);
+    }
   }
+  // If id matches a category and it has multiple subcategories, show a grid of subcategories
+  if (category && (category.subcategories || []).length > 1) {
+    const heading = document.createElement('h2');
+    heading.textContent = category.title;
+    main.appendChild(heading);
+    const grid = document.createElement('div');
+    grid.className = 'subcategory-grid';
+    (category.subcategories || []).forEach(sub => {
+      const card = document.createElement('div');
+      card.className = 'subcategory-card';
+      const icon = document.createElement('i');
+      const iconClass = SUBCATEGORY_ICONS[sub.id] || 'fa-folder';
+      icon.className = `fa-solid ${iconClass}`;
+      card.appendChild(icon);
+      const span = document.createElement('span');
+      span.textContent = sub.title;
+      card.appendChild(span);
+      card.onclick = () => {
+        window.location.href = `/subcategory.html?id=${encodeURIComponent(sub.id)}`;
+      };
+      grid.appendChild(card);
+    });
+    main.appendChild(grid);
+  } else {
+    // Determine the subcategory to display
+    if (!subcategory && category) {
+      // Category with a single subcategory
+      subcategory = (category.subcategories || [])[0];
+    }
+    if (!subcategory) {
+      main.textContent = 'Subcategory not found.';
+      return;
+    }
+    const h2 = document.createElement('h2');
+    h2.textContent = subcategory.title;
+    main.appendChild(h2);
+    const topics = subcategory.topics || [];
+    if (!topics || topics.length === 0) {
+      const p = document.createElement('p');
+      p.textContent = 'There are no entries for this section yet.';
+      main.appendChild(p);
+    } else {
+      const grid = document.createElement('div');
+      grid.className = 'topic-grid';
+      topics.forEach(topic => {
+        const card = document.createElement('div');
+        card.className = 'topic-card';
+        // Optional image if provided
+        if (topic.image_url) {
+          const img = document.createElement('img');
+          img.src = topic.image_url;
+          img.alt = topic.title;
+          card.appendChild(img);
+        }
+        const ttitle = document.createElement('h4');
+        ttitle.textContent = topic.title;
+        card.appendChild(ttitle);
+        if (topic.body_md || topic.description) {
+          const d = document.createElement('p');
+          d.textContent = topic.body_md || topic.description;
+          card.appendChild(d);
+        }
+        // Clicking a topic opens the map highlighting this location
+        card.onclick = () => {
+          window.location.href = `/map.html?topic=${encodeURIComponent(topic.id)}`;
+        };
+        grid.appendChild(card);
+      });
+      main.appendChild(grid);
+    }
+  }
+  // Reattach QR code handler
   const qrBtn = document.getElementById('qr-button');
   if (qrBtn) {
     qrBtn.onclick = showQR;
@@ -500,7 +592,7 @@ async function loadMap() {
   const main = document.querySelector('main');
   if (!main) return;
   main.innerHTML = '<div id="map" style="height: 60vh; width: 100%;"></div>';
-  // Load Leaflet if not already present
+  // Load Leaflet library dynamically if it is not already loaded
   if (typeof L === 'undefined') {
     await new Promise((resolve, reject) => {
       const link = document.createElement('link');
@@ -514,14 +606,84 @@ async function loadMap() {
       document.body.appendChild(script);
     });
   }
+  const params = new URLSearchParams(window.location.search);
+  const highlightId = params.get('topic');
+  // Property coordinates
   const coords = data.guide.coordinates || { lat: 0, lng: 0 };
+  // Create map
   const map = L.map('map').setView([coords.lat, coords.lng], data.settings.map?.zoom || 12);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
   }).addTo(map);
+  // Marker for the property itself
   L.marker([coords.lat, coords.lng]).addTo(map)
-    .bindPopup(data.guide.name || 'Location')
-    .openPopup();
+    .bindPopup(data.guide.name || 'Location');
+  // Helper to compute distance between two lat/lng points in kilometres
+  function computeDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Radius of earth in km
+    const toRad = (deg) => deg * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
+  // Flatten all topics and place markers
+  const markers = [];
+  let idx = 1;
+  (data.categories || []).forEach(cat => {
+    (cat.subcategories || []).forEach(sub => {
+      (sub.topics || []).forEach(topic => {
+        // Only plot if there is a map pin type
+        if (!topic.map_pin_type) return;
+        let lat = parseFloat(topic.lat);
+        let lng = parseFloat(topic.lng);
+        // Assign a pseudo-random coordinate near the property if missing
+        if (!lat || !lng) {
+          const offsetLat = 0.02 * Math.cos(idx);
+          const offsetLng = 0.02 * Math.sin(idx);
+          lat = coords.lat + offsetLat;
+          lng = coords.lng + offsetLng;
+          idx++;
+        }
+        const color = PIN_COLORS[topic.map_pin_type] || '#3498db';
+        const marker = L.circleMarker([lat, lng], {
+          radius: 8,
+          color: color,
+          fillColor: color,
+          fillOpacity: 0.8
+        }).addTo(map);
+        const distKm = computeDistance(coords.lat, coords.lng, lat, lng);
+        const distMi = (distKm * 0.621371).toFixed(1);
+        marker.bindPopup(`<strong>${topic.title}</strong><br>${distMi} mi from house`);
+        markers.push({ id: topic.id, marker: marker });
+      });
+    });
+  });
+  // Highlight a specific topic if provided
+  if (highlightId) {
+    const m = markers.find(x => x.id === highlightId);
+    if (m) {
+      m.marker.openPopup();
+      map.setView(m.marker.getLatLng(), 14);
+    }
+  }
+  // Add legend for categories colours
+  const legend = L.control({ position: 'bottomright' });
+  legend.onAdd = function() {
+    const div = L.DomUtil.create('div', 'info legend');
+    const labels = [];
+    // Build legend entries based on PIN_COLORS
+    for (const [type, col] of Object.entries(PIN_COLORS)) {
+      labels.push(`<i style="background:${col}; width:10px; height:10px; display:inline-block; margin-right:4px;"></i>${type}`);
+    }
+    div.innerHTML = labels.join('<br>');
+    return div;
+  };
+  legend.addTo(map);
+  // QR code handler
   const qrBtn = document.getElementById('qr-button');
   if (qrBtn) {
     qrBtn.onclick = showQR;
