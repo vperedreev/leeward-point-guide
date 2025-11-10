@@ -3,7 +3,7 @@
  * precaches the site shell and returns cached responses when offline.
  */
 
-const CACHE_NAME = 'leeward-point-cache-v3';
+const CACHE_NAME = 'leeward-point-cache-v4';
 const PRECACHE_URLS = [
   '/',
   '/index.html',
