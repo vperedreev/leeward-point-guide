@@ -552,7 +552,7 @@
     "publish": {
       "mode": "git",
       "host": "vercel",
-      "github_repo": "vperedreev/leeward-point-guide"
+      "github_repo": "vperedreev/leeward-point-guide",
       "github_branch": "main"
     },
     "admin": {
