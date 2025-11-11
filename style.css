@@ -28,7 +28,12 @@
      uses the secondary colour to anchor the UI.  */
   --header-bg-color: var(--accent-color);
   --footer-bg-color: var(--secondary-color);
+  /* Use a decorative font for the header title */
+  --header-font-stack: 'Playfair Display', var(--font-stack);
 }
+
+/* Import Playfair Display from Google Fonts for a stylish header */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
 
 body {
   margin: 0;
@@ -102,6 +107,8 @@ body {
   height: auto;
   display: block;
   margin: 0 auto;
+  /* Display the logo as a circle */
+  border-radius: 50%;
 }
 
 /* Icon grid for the info page */
@@ -220,7 +227,8 @@ header {
   height: var(--header-height);
   padding: 0 1rem;
   background: var(--header-bg-color, var(--accent-color));
-  color: var(--secondary-color);
+  /* Use primary colour for header text and icons so they contrast against the gold background */
+  color: var(--primary-color);
 }
 
 /* Header sections for logo/title and contact actions */
@@ -230,15 +238,17 @@ header {
   gap: 0.5rem;
 }
 .header-left .logo {
-  /* Increase logo size for the thicker header */
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  /* Hide the logo icon in the header since the property name stands on its own */
+  display: none;
 }
 .header-left span {
   font-weight: bold;
   /* Increase the title size to complement the larger header */
   font-size: 1.4rem;
+  /* Use a more decorative font for the property name */
+  font-family: var(--header-font-stack);
+  /* Ensure the title uses the primary colour */
+  color: var(--primary-color);
 }
 .header-right {
   display: flex;
@@ -246,8 +256,8 @@ header {
   gap: 0.75rem;
 }
 .header-right a {
-  /* Contact icons in the header use the secondary colour for contrast on the gold background. */
-  color: var(--secondary-color);
+  /* Contact icons in the header use the primary colour for contrast on the gold background. */
+  color: var(--primary-color);
   text-decoration: none;
   /* Increase contact icon size */
   font-size: 1.4rem;
@@ -258,8 +268,8 @@ header {
 .header-right button#qr-button {
   /* Style the QR button as a pill outline button.  It becomes filled on hover. */
   background: transparent;
-  color: var(--secondary-color);
-  border: 1px solid var(--secondary-color);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
   /* Increase padding and radius to better fit the taller header */
   padding: 0.4rem 0.9rem;
   border-radius: 24px;
@@ -267,8 +277,8 @@ header {
   cursor: pointer;
 }
 .header-right button#qr-button:hover {
-  background: var(--secondary-color);
-  color: var(--primary-color);
+  background: var(--primary-color);
+  color: var(--header-bg-color);
 }
 
 header h1 {
