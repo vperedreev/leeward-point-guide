@@ -6,7 +6,7 @@
 // Bump the cache name whenever assets change to ensure clients pick up
 // the latest version. v7 updates the UI design and colours.
 // Bump the cache name whenever assets change to ensure clients receive the latest files.
-const CACHE_NAME = 'leeward-point-cache-v8';
+const CACHE_NAME = 'leeward-point-cache-v9';
 const PRECACHE_URLS = [
   '/',
   '/index.html',
@@ -23,6 +23,7 @@ const PRECACHE_URLS = [
   '/icon-512.png',
   // ensure the hero image is cached for offline access
   '/hero.png',
+  '/hero-button.png',
   // new pages for house tour and how-to
   '/house-tour.html',
   '/howto.html',

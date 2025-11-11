@@ -94,6 +94,16 @@ body {
   opacity: 0.85;
 }
 
+/* The hero logo button displayed on the home page.  This image acts
+   as a button to enter the guide.  Constrain its width on small
+   screens while preserving aspect ratio. */
+.hero-logo-button {
+  max-width: 60%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
 /* Icon grid for the info page */
 .icon-grid {
   display: flex;

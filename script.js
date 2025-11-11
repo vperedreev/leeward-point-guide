@@ -99,10 +99,21 @@ const PIN_COLORS = {
   'tip': '#7f8c8d'            // grey
 };
 
+// Icons used in the bottom navigation bar.  Each key corresponds to a page id
+// and maps to a Font Awesome class.  These icons help users quickly
+// identify the purpose of each tab.
+const NAV_ICONS = {
+  home: 'fa-house',
+  info: 'fa-circle-info',
+  map: 'fa-map',
+  search: 'fa-search'
+};
+
 /** Render the house tour page. Shows image groups and unsorted images. */
 async function loadHouseTour() {
   const data = await getData();
   await applyBrand();
+  await buildHeader();
   // Highlight the info tab since house tour lives under info
   buildNav('info');
   const main = document.querySelector('main');
@@ -173,6 +184,7 @@ async function loadHouseTour() {
 async function loadHowTo() {
   const data = await getData();
   await applyBrand();
+  await buildHeader();
   buildNav('info');
   const main = document.querySelector('main');
   if (!main) return;
@@ -207,6 +219,7 @@ async function loadHowTo() {
 async function loadHowToItem() {
   const data = await getData();
   await applyBrand();
+  await buildHeader();
   buildNav('info');
   const main = document.querySelector('main');
   if (!main) return;
@@ -256,19 +269,81 @@ function buildNav(current) {
   const nav = document.querySelector('nav');
   if (!nav) return;
   const links = [
-    { id: 'home', title: 'HOME', href: '/index.html' },
-    { id: 'info', title: 'INFO', href: '/info.html' },
-    { id: 'map', title: 'MAP', href: '/map.html' },
-    { id: 'search', title: 'SEARCH', href: '/search.html' }
+    { id: 'home', label: 'Home', href: '/index.html' },
+    { id: 'info', label: 'Info', href: '/info.html' },
+    { id: 'map', label: 'Map', href: '/map.html' },
+    { id: 'search', label: 'Search', href: '/search.html' }
   ];
   nav.innerHTML = '';
-  links.forEach(({ id, title, href }) => {
+  links.forEach(({ id, label, href }) => {
     const a = document.createElement('a');
     a.href = href;
-    a.textContent = title;
     if (current === id) a.classList.add('active');
+    // Icon for the nav item
+    const iconEl = document.createElement('i');
+    const iconClass = NAV_ICONS[id] || 'fa-circle';
+    iconEl.className = 'fa-solid ' + iconClass;
+    a.appendChild(iconEl);
+    // Label
+    const span = document.createElement('span');
+    span.textContent = label.toUpperCase();
+    a.appendChild(span);
     nav.appendChild(a);
   });
+}
+
+/** Construct the header for the application.  The header displays
+ * the property name and optional logo on the left and contact
+ * actions on the right (phone, email, QR code).  It uses data
+ * loaded from the data.json file. */
+async function buildHeader() {
+  const data = await getData();
+  const header = document.querySelector('header');
+  if (!header) return;
+  const guide = data.guide || {};
+  // Clear any existing content
+  header.innerHTML = '';
+  // Left side with logo and property name
+  const left = document.createElement('div');
+  left.className = 'header-left';
+  // Use the application icon if available, otherwise fallback to text
+  const logo = document.createElement('img');
+  logo.src = guide.logo || '/icon-192.png';
+  logo.alt = 'Logo';
+  logo.className = 'logo';
+  left.appendChild(logo);
+  const title = document.createElement('span');
+  title.textContent = guide.name || 'Guide';
+  left.appendChild(title);
+  header.appendChild(left);
+  // Right side with contact icons and QR button
+  const right = document.createElement('div');
+  right.className = 'header-right';
+  // Phone link
+  if (guide.contact && guide.contact.host_phone) {
+    const phoneLink = document.createElement('a');
+    phoneLink.href = 'tel:' + guide.contact.host_phone;
+    const phoneIcon = document.createElement('i');
+    phoneIcon.className = 'fa-solid fa-phone';
+    phoneLink.appendChild(phoneIcon);
+    right.appendChild(phoneLink);
+  }
+  // Email link
+  if (guide.contact && guide.contact.host_email) {
+    const emailLink = document.createElement('a');
+    emailLink.href = 'mailto:' + guide.contact.host_email;
+    const emailIcon = document.createElement('i');
+    emailIcon.className = 'fa-solid fa-envelope';
+    emailLink.appendChild(emailIcon);
+    right.appendChild(emailLink);
+  }
+  // QR button - will be wired to show QR code
+  const qrBtn = document.createElement('button');
+  qrBtn.id = 'qr-button';
+  qrBtn.textContent = 'QR';
+  qrBtn.onclick = showQR;
+  right.appendChild(qrBtn);
+  header.appendChild(right);
 }
 
 /** Helper to parse query parameters from the current URL. */
@@ -304,6 +379,7 @@ function closeQR() {
 async function loadHome() {
   const data = await getData();
   await applyBrand();
+  await buildHeader();
   buildNav('home');
   const main = document.querySelector('main');
   if (!main) return;
@@ -320,34 +396,22 @@ async function loadHome() {
   }
   const heroContent = document.createElement('div');
   heroContent.className = 'hero-content';
-  const hTitle = document.createElement('h2');
-  hTitle.textContent = guide.name || 'Guestbook';
-  heroContent.appendChild(hTitle);
-  if (guide.address) {
-    const addr = document.createElement('p');
-    addr.textContent = guide.address;
-    heroContent.appendChild(addr);
-  }
-  const welcome = document.createElement('p');
-  welcome.textContent = 'Welcome to your digital guestbook and guide.';
-  heroContent.appendChild(welcome);
-  const btnWrapper = document.createElement('div');
-  btnWrapper.className = 'hero-buttons';
-  // View Info button
-  const infoBtn = document.createElement('button');
-  infoBtn.textContent = 'View Info';
-  infoBtn.onclick = () => {
+  /*
+   * Instead of showing text in the hero, display a logo image that acts
+   * as a button.  When tapped or clicked it navigates to the Info
+   * page.  The image source is stored in the project as
+   * /hero-button.png.  If you wish to change this image, replace
+   * hero-button.png in the project root.
+   */
+  const logoBtn = document.createElement('img');
+  logoBtn.src = '/hero-button.png';
+  logoBtn.alt = 'Enter guide';
+  logoBtn.className = 'hero-logo-button';
+  logoBtn.style.cursor = 'pointer';
+  logoBtn.onclick = () => {
     window.location.href = '/info.html';
   };
-  btnWrapper.appendChild(infoBtn);
-  // Open Map button
-  const mapBtn = document.createElement('button');
-  mapBtn.textContent = 'Open Map';
-  mapBtn.onclick = () => {
-    window.location.href = '/map.html';
-  };
-  btnWrapper.appendChild(mapBtn);
-  heroContent.appendChild(btnWrapper);
+  heroContent.appendChild(logoBtn);
   hero.innerHTML = '';
   hero.appendChild(heroContent);
   // Append hero to main
@@ -370,6 +434,7 @@ async function loadHome() {
 async function loadInfo() {
   const data = await getData();
   await applyBrand();
+  await buildHeader();
   buildNav('info');
   const main = document.querySelector('main');
   if (!main) return;
@@ -443,6 +508,7 @@ async function loadInfo() {
 async function loadSubcategory() {
   const data = await getData();
   await applyBrand();
+  await buildHeader();
   buildNav('info');
   const main = document.querySelector('main');
   if (!main) return;
@@ -543,6 +609,10 @@ async function loadSubcategory() {
           d.textContent = descText;
           card.appendChild(d);
         }
+        // Add a chevron icon to indicate that tapping will reveal more details
+        const arrow = document.createElement('i');
+        arrow.className = 'fa-solid fa-chevron-right arrow';
+        card.appendChild(arrow);
         // Clicking a topic opens a dedicated details page instead of the map.  Use a slug
         // derived from the title to identify the topic across pages.
         card.onclick = () => {
@@ -566,6 +636,7 @@ async function loadSubcategory() {
 async function loadSearch() {
   const data = await getData();
   await applyBrand();
+  await buildHeader();
   buildNav('search');
   const main = document.querySelector('main');
   if (!main) return;
@@ -630,6 +701,7 @@ async function loadSearch() {
 async function loadMap() {
   const data = await getData();
   await applyBrand();
+  await buildHeader();
   buildNav('map');
   const main = document.querySelector('main');
   if (!main) return;
@@ -744,6 +816,7 @@ async function loadMap() {
 async function loadTopic() {
   const data = await getData();
   await applyBrand();
+  await buildHeader();
   buildNav('info');
   const main = document.querySelector('main');
   if (!main) return;
@@ -847,6 +920,7 @@ async function hashPasscode(pass) {
 async function loadAdmin() {
   const data = await getData();
   await applyBrand();
+  await buildHeader();
   buildNav('admin');
   const main = document.querySelector('main');
   if (!main) return;
