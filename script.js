@@ -701,30 +701,48 @@ async function loadHome() {
   }
   const heroContent = document.createElement('div');
   heroContent.className = 'hero-content';
-  /*
-   * Instead of showing text in the hero, display a logo image that acts
-   * as a button.  When tapped or clicked it navigates to the Info
-   * page.  The image source is stored in the project as
-   * /hero-button.png.  If you wish to change this image, replace
-   * hero-button.png in the project root.
-   */
-  const logoBtn = document.createElement('img');
-  logoBtn.src = '/hero-button.png';
-  logoBtn.alt = 'Enter guide';
-  logoBtn.className = 'hero-logo-button';
-  logoBtn.style.cursor = 'pointer';
-  logoBtn.onclick = () => {
+  // Build a richer home page hero overlay.  The overlay shows a
+  // circular logo ring, a property title, a subtitle and a call‑to‑action
+  // button.  This layout mimics the TouchStay style the user requested.
+  // Create a container for the logo ring.  The ring is implemented via CSS.
+  const logoRing = document.createElement('div');
+  logoRing.className = 'logo-ring';
+  // Logo image inside the ring
+  const logoImg = document.createElement('img');
+  logoImg.src = '/hero-button.png';
+  logoImg.alt = data.property_name || 'Leeward Retreat';
+  logoImg.className = 'hero-logo-img';
+  logoImg.style.cursor = 'pointer';
+  // When the logo is clicked, navigate to the Info page.
+  logoImg.onclick = () => {
     window.location.href = '/info.html';
   };
-  heroContent.appendChild(logoBtn);
+  logoRing.appendChild(logoImg);
+  heroContent.appendChild(logoRing);
+  // Property name displayed under the logo
+  const titleEl = document.createElement('h1');
+  titleEl.className = 'hero-title';
+  titleEl.textContent = data.property_name || 'Leeward Retreat';
+  heroContent.appendChild(titleEl);
+  // Subtitle with a short description of the guide
+  const subtitleEl = document.createElement('p');
+  subtitleEl.className = 'hero-subtitle';
+  subtitleEl.textContent = `Everything you need to know for your stay at ${data.property_name || 'Leeward Retreat'}`;
+  heroContent.appendChild(subtitleEl);
+  // Call‑to‑action button to start browsing the guide
+  const ctaBtn = document.createElement('button');
+  ctaBtn.className = 'hero-cta';
+  ctaBtn.textContent = 'Get Started';
+  ctaBtn.onclick = () => {
+    window.location.href = '/info.html';
+  };
+  heroContent.appendChild(ctaBtn);
+  // Clear existing content and append the new hero overlay
   hero.innerHTML = '';
   hero.appendChild(heroContent);
-  // Append hero to main
+  // Append hero to main content
   main.appendChild(hero);
-  // Do not render the separate contact block on the home page.  The
-  // phone and email details are already accessible via the icons in
-  // the header, so avoid duplicating this information here.
-  // QR code button
+  // Hook up the QR button on the header
   const qrBtn = document.getElementById('qr-button');
   if (qrBtn) {
     qrBtn.onclick = showQR;

@@ -105,22 +105,79 @@ body {
 /* The hero logo button displayed on the home page.  This image acts
    as a button to enter the guide.  Constrain its width on small
    screens while preserving aspect ratio. */
+/* Legacy class for the hero logo button (no longer used).  Kept for
+   backward compatibility with older cached pages. */
 .hero-logo-button {
-  /* Shrink the logo on the home page so it doesn't dominate the hero.
-     A smaller logo helps the entire hero fit on a single screen on
-     mobile devices. */
-  max-width: 30%;
+  display: none;
+}
+
+/* Container that creates a circular ring around the logo on the home page.
+   The ring has a subtle border that echoes the original TouchStay style.
+   The size of the ring adapts to the viewport using vw units so it
+   remains proportional on different devices. */
+.logo-ring {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Create a coloured ring around the logo.  Use the primary colour (white)
+     for the ring so it stands out against the hero image. */
+  border: 4px solid var(--primary-color);
+  border-radius: 50%;
+  padding: 0.5rem;
+  /* Responsive size: around one third of the viewport width on mobile */
+  width: 40vw;
+  height: 40vw;
+  max-width: 220px;
+  max-height: 220px;
+  margin: 0 auto 0.5rem;
+}
+
+/* The logo image inside the ring.  Constrain its size and make it
+   circular so it fits neatly within the ring. */
+.hero-logo-img {
+  width: 100%;
   height: auto;
+  border-radius: 50%;
   display: block;
-  margin: 0 auto;
-  /* Remove the off‑white circle behind the logo.  Blend the logo with the
-     underlying hero image so the light background disappears while the
-     coloured elements remain visible. */
-  /* Remove any blend mode so the transparent logo displays naturally over
-     the hero image.  The PNG used for the logo has a transparent
-     background, so no blending is required. */
-  border-radius: 0;
-  mix-blend-mode: normal;
+}
+
+/* Title displayed on the home hero.  Use the accent colour to
+   complement the gold bar. */
+.hero-title {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 2rem;
+  font-family: var(--header-font-stack);
+  color: var(--accent-color);
+  text-align: center;
+}
+
+/* Subtitle text under the title on the home hero.  Use a smaller font
+   and ensure it wraps gracefully within the hero. */
+.hero-subtitle {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  line-height: 1.4;
+  max-width: 80%;
+  color: var(--primary-color);
+  text-align: center;
+}
+
+/* Call‑to‑action button for the home hero.  Styled similarly to other
+   buttons in the guide but centered and slightly larger. */
+.hero-cta {
+  background: var(--accent-color);
+  color: var(--primary-color);
+  border: none;
+  border-radius: 24px;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.hero-cta:hover {
+  opacity: 0.85;
 }
 
 /* Icon grid for the info page */
