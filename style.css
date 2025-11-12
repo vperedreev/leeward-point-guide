@@ -80,6 +80,13 @@ body {
 .hero-content {
   position: relative;
   z-index: 1;
+  /* Centre all items in the hero vertically and horizontally.  By using flex
+     layout and aligning items to the centre, the logo, title, subtitle and
+     button stack neatly and remain centred regardless of their widths. */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .hero-buttons {
@@ -139,6 +146,10 @@ body {
   height: auto;
   border-radius: 50%;
   display: block;
+  /* Enhance the logo colours for better visibility over the hero background.  Increase
+     brightness and saturation further to make the logo pop against the kitchen
+     image, ensuring the sun, waves and palm leaf stand out more clearly. */
+  filter: brightness(1.8) saturate(1.8);
 }
 
 /* Title displayed on the home hero.  Use the accent colour to
@@ -154,10 +165,15 @@ body {
 /* Subtitle text under the title on the home hero.  Use a smaller font
    and ensure it wraps gracefully within the hero. */
 .hero-subtitle {
-  margin: 0 0 1rem;
+  /* Center the subtitle horizontally within its container by using
+     auto left/right margins.  This ensures the text sits directly
+     beneath the logo. */
+  margin: 0 auto 1rem;
   font-size: 1rem;
   line-height: 1.4;
-  max-width: 80%;
+  /* Give the subtitle more breathing room and ensure it centres properly by
+     widening the allowable width and maintaining automatic margins. */
+  max-width: 90%;
   color: var(--primary-color);
   text-align: center;
 }
