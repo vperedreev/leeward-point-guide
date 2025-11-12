@@ -416,13 +416,9 @@ async function loadHome() {
   hero.appendChild(heroContent);
   // Append hero to main
   main.appendChild(hero);
-  // Contact information below hero
-  if (guide.contact) {
-    const contact = document.createElement('div');
-    contact.innerHTML = `<p><strong>Host phone:</strong> ${guide.contact.host_phone || ''}</p>` +
-                        `<p><strong>Host email:</strong> ${guide.contact.host_email || ''}</p>`;
-    main.appendChild(contact);
-  }
+  // Do not render the separate contact block on the home page.  The
+  // phone and email details are already accessible via the icons in
+  // the header, so avoid duplicating this information here.
   // QR code button
   const qrBtn = document.getElementById('qr-button');
   if (qrBtn) {
