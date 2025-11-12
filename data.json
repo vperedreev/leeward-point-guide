@@ -29,7 +29,7 @@
       "lng": -81.516018
     },
     "contact": {
-    "host_phone": "216-780-9654",
+      "host_phone": "216-780-9654",
       "host_email": "ukcrentals@gmail.com"
     },
     "address": "4151 Leeward Point, Jacksonville FL 32225"
@@ -187,8 +187,8 @@
               "map_pin_type": "restaurant",
               "title": "Restaurant Orsay",
               "body_md": "Fine dining French bistro with Southern influences. Try the steak frites with rosemary-seasoned steak, red wine jus and butter sauce.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.2983",
+              "lng": "-81.705",
               "address": "3630 Park St, Jacksonville, FL 32205",
               "images": [
                 "images/local_area/restaurant.png"
@@ -201,8 +201,8 @@
               "map_pin_type": "restaurant",
               "title": "Cowford Chophouse",
               "body_md": "Steakhouse famous for its steaks and duck fat cornbread topped with Maine lobster, lump crab and cr\u00e8me fra\u00eeche.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.325",
+              "lng": "-81.655",
               "address": "101 E Bay St, Jacksonville, FL 32202",
               "images": [
                 "images/local_area/restaurant.png"
@@ -215,8 +215,8 @@
               "map_pin_type": "restaurant",
               "title": "The Bearded Pig",
               "body_md": "Casual barbecue spot known for its Frito Pie: brisket and beans served over Frito chips with cheese and jalape\u00f1o aioli.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.304",
+              "lng": "-81.656",
               "address": "1808 Kings Ave, Jacksonville, FL 32207",
               "images": [
                 "images/local_area/restaurant.png"
@@ -229,8 +229,8 @@
               "map_pin_type": "restaurant",
               "title": "Indochine",
               "body_md": "Thai restaurant voted one of the city\u2019s best. Signature dish: crab rangoon filled with real lump crab and curried cream cheese.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.325",
+              "lng": "-81.658",
               "address": "21 E Adams St, Jacksonville, FL 32202",
               "images": [
                 "images/local_area/restaurant.png"
@@ -243,8 +243,8 @@
               "map_pin_type": "restaurant",
               "title": "Maple Street Biscuit Company",
               "body_md": "Southern comfort food. Don\u2019t miss the Squawking Goat: fried chicken and goat cheese medallion on a flaky biscuit with house-made pepper jelly.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.305",
+              "lng": "-81.656",
               "address": "2004 San Marco Blvd, Jacksonville, FL 32207",
               "images": [
                 "images/local_area/restaurant.png"
@@ -257,8 +257,8 @@
               "map_pin_type": "restaurant",
               "title": "Palms Fish Camp",
               "body_md": "Seafood restaurant serving fresh Mayport shrimp and fish with scenic water views. Try the shrimp and grits or blackened fish.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.39",
+              "lng": "-81.472",
               "address": "6359 Heckscher Dr, Jacksonville, FL 32226",
               "images": [
                 "images/local_area/restaurant.png"
@@ -271,8 +271,8 @@
               "map_pin_type": "restaurant",
               "title": "TacoLu",
               "body_md": "Lively spot for tacos and tequila. Signature dish: Bangin\u2019 Shrimp Taco with crispy shrimp, cabbage and chipotle cream.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.289",
+              "lng": "-81.397",
               "address": "1712 Beach Blvd, Jacksonville Beach, FL 32250",
               "images": [
                 "images/local_area/restaurant.png"
@@ -285,8 +285,8 @@
               "map_pin_type": "restaurant",
               "title": "The French Pantry",
               "body_md": "Cozy lunch spot where the menu changes daily. Their bruschetta comes in multiple options, always made from scratch.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.25",
+              "lng": "-81.595",
               "address": "6301 Powers Ave, Jacksonville, FL 32217",
               "images": [
                 "images/local_area/restaurant.png"
@@ -305,8 +305,8 @@
               "map_pin_type": "cafe",
               "title": "Bold Bean Coffee Roasters, Riverside",
               "body_md": "House roaster. Consistent espresso.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.311",
+              "lng": "-81.706",
               "address": "869 Stockton St, Jacksonville, FL 32204",
               "images": [
                 "images/local_area/cafe.png"
@@ -319,8 +319,8 @@
               "map_pin_type": "cafe",
               "title": "Southern Grounds, Neptune Beach",
               "body_md": "All day menu. Good for work sessions.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.319",
+              "lng": "-81.397",
               "address": "200 First St, Neptune Beach, FL 32266",
               "images": [
                 "images/local_area/cafe.png"
@@ -333,8 +333,8 @@
               "map_pin_type": "cafe",
               "title": "Social Grounds Coffee, Springfield",
               "body_md": "Veteran owned. Pour over and cold brew.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.353",
+              "lng": "-81.646",
               "address": "1712 N Main St, Jacksonville, FL 32206",
               "images": [
                 "images/local_area/cafe.png"
@@ -347,8 +347,8 @@
               "map_pin_type": "cafe",
               "title": "Le Petit Paris, Southside",
               "body_md": "French bakery. Strong coffee.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.274",
+              "lng": "-81.522",
               "address": "9965 San Jose Blvd, Jacksonville, FL 32257",
               "images": [
                 "images/local_area/cafe.png"
@@ -361,8 +361,8 @@
               "map_pin_type": "cafe",
               "title": "Maple Street Biscuit Company, San Marco",
               "body_md": "Hearty breakfast. Solid coffee.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.305",
+              "lng": "-81.656",
               "address": "2004 San Marco Blvd, Jacksonville, FL 32207",
               "images": [
                 "images/local_area/cafe.png"
@@ -381,8 +381,8 @@
               "map_pin_type": "bar",
               "title": "The Brix Taphouse, Jax Beach",
               "body_md": "Big tap list near the sand.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.292",
+              "lng": "-81.393",
               "address": "300 2nd St N, Jacksonville Beach, FL 32250",
               "images": [
                 "images/local_area/bar_brewery.png"
@@ -401,8 +401,8 @@
               "map_pin_type": "attraction",
               "title": "St. Augustine",
               "body_md": "45 to 60 min. Historic district. Lighthouse. Food scene.",
-              "lat": "",
-              "lng": "",
+              "lat": "29.901",
+              "lng": "-81.312",
               "address": "St. Augustine, FL 32084",
               "images": [
                 "images/local_area/trail.png"
@@ -415,8 +415,8 @@
               "map_pin_type": "attraction",
               "title": "Amelia Island and Fernandina Beach",
               "body_md": "45 to 60 min. Victorian downtown. Quiet beaches.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.669",
+              "lng": "-81.463",
               "address": "Fernandina Beach, FL 32034",
               "images": [
                 "images/local_area/trail.png"
@@ -429,8 +429,8 @@
               "map_pin_type": "attraction",
               "title": "Cumberland Island, GA",
               "body_md": "About 90 min to ferry. Wild horses. No cars.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.756",
+              "lng": "-81.455",
               "address": "Cumberland Island, GA 31558",
               "images": [
                 "images/local_area/trail.png"
@@ -443,8 +443,8 @@
               "map_pin_type": "attraction",
               "title": "Ichetucknee or Ginnie Springs",
               "body_md": "2 to 2.5 hours. Tubing. Clear springs.",
-              "lat": "",
-              "lng": "",
+              "lat": "29.94",
+              "lng": "-82.71",
               "address": "Fort White, FL 32038",
               "images": [
                 "images/local_area/trail.png"
@@ -457,8 +457,8 @@
               "map_pin_type": "attraction",
               "title": "Gainesville and Paynes Prairie",
               "body_md": "About 1.5 hours. Bison and wild horses.",
-              "lat": "",
-              "lng": "",
+              "lat": "29.617",
+              "lng": "-82.327",
               "address": "Micanopy, FL 32667",
               "images": [
                 "images/local_area/trail.png"
@@ -477,8 +477,8 @@
               "map_pin_type": "trail",
               "title": "Jacksonville Baldwin Rail Trail",
               "body_md": "14.5 miles paved. Equestrian path. Multiple trailheads.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.323",
+              "lng": "-81.853",
               "address": "1175 Halsema Rd N, Jacksonville, FL 32220",
               "images": [
                 "images/local_area/trail.png"
@@ -491,8 +491,8 @@
               "map_pin_type": "trail",
               "title": "UNF Robert W. Loftin Nature Trails",
               "body_md": "Three loops. Red Maple Boardwalk. Sunrise to sunset.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.2679",
+              "lng": "-81.513",
               "address": "1 University of North Fl Dr, Jacksonville, FL 32224",
               "images": [
                 "images/local_area/trail.png"
@@ -505,8 +505,8 @@
               "map_pin_type": "trail",
               "title": "Kathryn Abbey Hanna Park",
               "body_md": "15 miles of trails. Lakeside loops. Beach access.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.384",
+              "lng": "-81.38",
               "address": "500 Wonderwood Dr, Jacksonville, FL 32233",
               "images": [
                 "images/local_area/trail.png"
@@ -519,8 +519,8 @@
               "map_pin_type": "trail",
               "title": "Timucuan Preserve, Spanish Pond and Fort Caroline",
               "body_md": "Easy scenic loops.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.386",
+              "lng": "-81.49",
               "address": "12713 Fort Caroline Rd, Jacksonville, FL 32225",
               "images": [
                 "images/local_area/trail.png"
@@ -539,8 +539,8 @@
               "map_pin_type": "museum",
               "title": "Cummer Museum of Art and Gardens",
               "body_md": "Riverfront gardens.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.314",
+              "lng": "-81.676",
               "address": "829 Riverside Ave, Jacksonville, FL 32204",
               "images": [
                 "images/local_area/trail.png"
@@ -553,8 +553,8 @@
               "map_pin_type": "zoo",
               "title": "Jacksonville Zoo and Gardens",
               "body_md": "Family friendly.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.417",
+              "lng": "-81.637",
               "address": "370 Zoo Pkwy, Jacksonville, FL 32218",
               "images": [
                 "images/local_area/trail.png"
@@ -567,8 +567,8 @@
               "map_pin_type": "attraction",
               "title": "Catty Shack Ranch Wildlife Sanctuary",
               "body_md": "Evening feedings.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.505",
+              "lng": "-81.51",
               "address": "1860 Starratt Rd, Jacksonville, FL 32226",
               "images": [
                 "images/local_area/trail.png"
@@ -581,8 +581,8 @@
               "map_pin_type": "market",
               "title": "Riverside Arts Market",
               "body_md": "Saturdays under the bridge.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.317",
+              "lng": "-81.673",
               "address": "715 Riverside Ave, Jacksonville, FL 32204",
               "images": [
                 "images/local_area/trail.png"
@@ -595,8 +595,8 @@
               "map_pin_type": "attraction",
               "title": "Jax Pier area",
               "body_md": "Easy beach plus dining.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.294",
+              "lng": "-81.3898",
               "address": "503 1st St N, Jacksonville Beach, FL 32250",
               "images": [
                 "images/local_area/beach.png"
@@ -615,8 +615,8 @@
               "map_pin_type": "beach",
               "title": "Jacksonville Beach",
               "body_md": "Beach access is free. Parking is paid March 1 to November 2 on most Fridays to Sundays and some areas. Free Monday to Thursday outside events. Street parking outside the core can be free on weekdays. Check signs.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.285",
+              "lng": "-81.389",
               "address": "Jacksonville Beach, FL 32250",
               "images": [
                 "images/local_area/beach.png"
@@ -629,8 +629,8 @@
               "map_pin_type": "beach",
               "title": "Neptune and Atlantic Beach",
               "body_md": "Public access is free. Mix of free street parking and posted pay zones near town centers. Check signs.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.324",
+              "lng": "-81.397",
               "address": "Neptune Beach, FL 32266; Atlantic Beach, FL 32233",
               "images": [
                 "images/local_area/beach.png"
@@ -643,8 +643,8 @@
               "map_pin_type": "beach",
               "title": "Little Talbot Island State Park",
               "body_md": "Undeveloped beach. 5 dollars per vehicle.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.454",
+              "lng": "-81.381",
               "address": "12157 Heckscher Dr, Jacksonville, FL 32226",
               "images": [
                 "images/local_area/beach.png"
@@ -657,8 +657,8 @@
               "map_pin_type": "beach",
               "title": "Kathryn Abbey Hanna Park",
               "body_md": "Oceanfront park with trails and splash pad. 5 dollars per car. 3 dollars walk in or bike.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.384",
+              "lng": "-81.38",
               "address": "500 Wonderwood Dr, Jacksonville, FL 32233",
               "images": [
                 "images/local_area/beach.png"
@@ -671,8 +671,8 @@
               "map_pin_type": "park",
               "title": "Pumpkin Hill Creek Preserve",
               "body_md": "Quiet paddling and hiking. No entrance fee.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.548",
+              "lng": "-81.479",
               "address": "13802 Pumpkin Hill Rd, Jacksonville, FL 32226",
               "images": [
                 "images/local_area/beach.png"
@@ -685,8 +685,8 @@
               "map_pin_type": "pier",
               "title": "George Crady Fishing Pier",
               "body_md": "Great sunrise walk and fishing. 2 dollars per person.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.437",
+              "lng": "-81.418",
               "address": "9950 Heckscher Dr, Jacksonville, FL 32226",
               "images": [
                 "images/local_area/beach.png"
@@ -739,8 +739,8 @@
               "map_pin_type": "bar",
               "title": "Aardwolf Brewing Company, San Marco",
               "body_md": "Sours and barrel aged standouts.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.305",
+              "lng": "-81.656",
               "address": "1461 Hendricks Ave, Jacksonville, FL 32207",
               "images": [
                 "images/local_area/bar_brewery.png"
@@ -753,8 +753,8 @@
               "map_pin_type": "bar",
               "title": "Bold City Brewery, Riverside",
               "body_md": "Jax classic.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.32",
+              "lng": "-81.69",
               "address": "2670 Rosselle St, Jacksonville, FL 32204",
               "images": [
                 "images/local_area/bar_brewery.png"
@@ -767,8 +767,8 @@
               "map_pin_type": "bar",
               "title": "Green Room Brewing, Jax Beach",
               "body_md": "Surf crowd favorite.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.293",
+              "lng": "-81.393",
               "address": "228 3rd St N, Jacksonville Beach, FL 32250",
               "images": [
                 "images/local_area/bar_brewery.png"
@@ -781,8 +781,8 @@
               "map_pin_type": "bar",
               "title": "Intuition Ale Works, Sports District",
               "body_md": "Rooftop. Game day vibe.",
-              "lat": "",
-              "lng": "",
+              "lat": "30.325",
+              "lng": "-81.636",
               "address": "929 E Bay St, Jacksonville, FL 32202",
               "images": [
                 "images/local_area/bar_brewery.png"
@@ -815,8 +815,8 @@
   "settings": {
     "brand": {
       "logo_url": "https://hostaway-platform.s3.us-west-2.amazonaws.com/account/attachment/102111-mmhWX6PsPWBcYmmPa--zmn6oK6JU3XtUGECOTC6mJoRk-6632d1a4f39b9?rand=y4umgzixjtl",
-  "primary_color": "#ffffff",
-  "secondary_color": "#111111",
+      "primary_color": "#ffffff",
+      "secondary_color": "#111111",
       "font_stack": "system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif"
     },
     "map": {

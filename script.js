@@ -741,63 +741,53 @@ async function loadMap() {
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
   }
-  // Flatten all topics and place markers
+  // Flatten all topics and place markers only if a specific topic is being viewed.
   const markers = [];
-  let idx = 1;
-  (data.categories || []).forEach(cat => {
-    (cat.subcategories || []).forEach(sub => {
-      (sub.topics || []).forEach(topic => {
-        // Only plot if there is a map pin type
-        if (!topic.map_pin_type) return;
-        let lat = parseFloat(topic.lat);
-        let lng = parseFloat(topic.lng);
-        // Assign a pseudo-random coordinate near the property if missing
-        if (!lat || !lng) {
-          const offsetLat = 0.02 * Math.cos(idx);
-          const offsetLng = 0.02 * Math.sin(idx);
-          lat = coords.lat + offsetLat;
-          lng = coords.lng + offsetLng;
-          idx++;
-        }
-        // Determine marker colour based on pin type
-        const color = PIN_COLORS[topic.map_pin_type] || '#3498db';
-        const marker = L.circleMarker([lat, lng], {
-          radius: 8,
-          color: color,
-          fillColor: color,
-          fillOpacity: 0.8
-        }).addTo(map);
-        // Compute distance in miles
-        const distKm = computeDistance(coords.lat, coords.lng, lat, lng);
-        const distMi = (distKm * 0.621371).toFixed(1);
-        marker.bindPopup(`<strong>${topic.title}</strong><br>${distMi} mi from house`);
-        // Compute a slug for this topic to identify it
-        const slug = slugify(topic.title);
-        markers.push({ slug: slug, marker: marker });
+  if (highlightSlug) {
+    (data.categories || []).forEach(cat => {
+      (cat.subcategories || []).forEach(sub => {
+        (sub.topics || []).forEach(topic => {
+          if (!topic.map_pin_type) return;
+          // Compute slug for this topic
+          const slug = slugify(topic.title);
+          if (slug !== highlightSlug) return;
+          // Use provided coordinates; if missing, do not plot the marker.
+          const lat = parseFloat(topic.lat);
+          const lng = parseFloat(topic.lng);
+          if (!lat || !lng) return;
+          const color = PIN_COLORS[topic.map_pin_type] || '#3498db';
+          const marker = L.circleMarker([lat, lng], {
+            radius: 8,
+            color: color,
+            fillColor: color,
+            fillOpacity: 0.8
+          }).addTo(map);
+          const distKm = computeDistance(coords.lat, coords.lng, lat, lng);
+          const distMi = (distKm * 0.621371).toFixed(1);
+          marker.bindPopup(`<strong>${topic.title}</strong><br>${distMi} mi from house`);
+          markers.push({ slug: slug, marker: marker });
+        });
       });
     });
-  });
-  // Highlight a specific topic marker if the slug was provided
-  if (highlightSlug) {
-    const m = markers.find(x => x.slug === highlightSlug);
-    if (m) {
+    // If a specific marker was placed, open it and zoom in
+    if (markers.length > 0) {
+      const m = markers[0];
       m.marker.openPopup();
       map.setView(m.marker.getLatLng(), 14);
     }
+    // Add a legend for the pin types when viewing a specific topic
+    const legend = L.control({ position: 'bottomright' });
+    legend.onAdd = function() {
+      const div = L.DomUtil.create('div', 'info legend');
+      const labels = [];
+      for (const [type, col] of Object.entries(PIN_COLORS)) {
+        labels.push(`<i style="background:${col}; width:10px; height:10px; display:inline-block; margin-right:4px;"></i>${type}`);
+      }
+      div.innerHTML = labels.join('<br>');
+      return div;
+    };
+    legend.addTo(map);
   }
-  // Add legend for categories colours
-  const legend = L.control({ position: 'bottomright' });
-  legend.onAdd = function() {
-    const div = L.DomUtil.create('div', 'info legend');
-    const labels = [];
-    // Build legend entries based on PIN_COLORS
-    for (const [type, col] of Object.entries(PIN_COLORS)) {
-      labels.push(`<i style="background:${col}; width:10px; height:10px; display:inline-block; margin-right:4px;"></i>${type}`);
-    }
-    div.innerHTML = labels.join('<br>');
-    return div;
-  };
-  legend.addTo(map);
   // QR code handler
   const qrBtn = document.getElementById('qr-button');
   if (qrBtn) {
@@ -889,12 +879,15 @@ async function loadTopic() {
     addr.innerHTML = `<strong>Address:</strong> <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(found.address)}" target="_blank" rel="noopener">${found.address}</a>`;
     main.appendChild(addr);
   }
-  // Button to view on map
-  const mapBtn = document.createElement('a');
-  mapBtn.href = `/map.html?topic=${encodeURIComponent(slug)}`;
-  mapBtn.textContent = 'View on Map';
-  mapBtn.className = 'btn-view-map';
-  main.appendChild(mapBtn);
+  // Button to view on map only for local‑area topics.  For arrival/
+  // parking and other categories there is no map view.
+  if (parentCat && parentCat.id === 'local-area') {
+    const mapBtn = document.createElement('a');
+    mapBtn.href = `/map.html?topic=${encodeURIComponent(slug)}`;
+    mapBtn.textContent = 'View on Map';
+    mapBtn.className = 'btn-view-map';
+    main.appendChild(mapBtn);
+  }
   // Reattach QR code handler if exists
   const qrBtn = document.getElementById('qr-button');
   if (qrBtn) qrBtn.onclick = showQR;
