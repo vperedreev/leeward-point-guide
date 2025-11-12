@@ -109,16 +109,18 @@ body {
   /* Shrink the logo on the home page so it doesn't dominate the hero.
      A smaller logo helps the entire hero fit on a single screen on
      mobile devices. */
-  max-width: 40%;
+  max-width: 30%;
   height: auto;
   display: block;
   margin: 0 auto;
-  /* Remove the circular mask on the logo.  Let the background show through
-     by blending the white parts of the image with the hero background.
-     Using mix-blend-mode multiplies the logo onto the hero so the
-     off‑white circle disappears while the coloured shapes remain visible. */
+  /* Remove the off‑white circle behind the logo.  Blend the logo with the
+     underlying hero image so the light background disappears while the
+     coloured elements remain visible. */
+  /* Remove any blend mode so the transparent logo displays naturally over
+     the hero image.  The PNG used for the logo has a transparent
+     background, so no blending is required. */
   border-radius: 0;
-  mix-blend-mode: multiply;
+  mix-blend-mode: normal;
 }
 
 /* Icon grid for the info page */
@@ -260,7 +262,7 @@ header.home-header {
 header.home-header a,
 header.home-header button,
 header.home-header i {
-  color: var(--primary-color);
+  color: var(--primary-color) !important;
   text-decoration: none;
   font-size: 1.4rem;
 }
@@ -270,6 +272,14 @@ header.home-header i {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  /* Align items to the start so the contact icons sit flush with the left edge. */
+  justify-content: flex-start;
+
+  /* Ensure the left container occupies the full width of its grid cell.
+     Without this, the container may shrink to the size of its contents,
+     causing the icons to appear too close to the centre logo. */
+  width: 100%;
+  justify-self: start;
 }
 /* Ensure contact links use the primary colour so they are white on the gold bar. */
 .header-left a {
@@ -294,6 +304,12 @@ header.home-header i {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  /* Push QR and language icons to the right edge of the header. */
+  justify-content: flex-end;
+
+  /* Expand the right container to fill its grid cell and align to the end. */
+  width: 100%;
+  justify-self: end;
 }
 
 /* Header centre container holds the logo on non-home pages. It expands
@@ -311,7 +327,10 @@ header.home-header i {
 header a,
 header button,
 header i {
-  color: var(--primary-color);
+  /* Force the colour of all header links, buttons and icons to the primary colour.
+     On some devices the default link colour (blue) leaks through; adding
+     !important ensures the white icons always render correctly on the gold bar. */
+  color: var(--primary-color) !important;
   text-decoration: none;
 }
 

@@ -20,7 +20,14 @@
     "languages": {
       "default": "en",
       "enabled": [
-        "en"
+        "en",
+        "es",
+        "fr",
+        "de",
+        "it",
+        "zh",
+        "ja",
+        "ru"
       ]
     },
     "time_zone": "America/New_York",
