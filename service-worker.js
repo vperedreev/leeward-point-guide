@@ -8,7 +8,10 @@
 // Bump the cache name whenever assets change to ensure clients receive the latest files.
 // Bump the cache name to force clients to fetch the latest assets when
 // significant UI changes (such as header and nav layout) are deployed.
-const CACHE_NAME = 'leeward-point-cache-v12';
+// Bump the cache name to v13 because we changed the header layout, hero logo
+// blend mode and updated the hero image and translations.  Updating this
+// version forces browsers to refresh cached assets.
+const CACHE_NAME = 'leeward-point-cache-v13';
 const PRECACHE_URLS = [
   '/',
   '/index.html',

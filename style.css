@@ -113,8 +113,12 @@ body {
   height: auto;
   display: block;
   margin: 0 auto;
-  /* Display the logo as a circle */
-  border-radius: 50%;
+  /* Remove the circular mask on the logo.  Let the background show through
+     by blending the white parts of the image with the hero background.
+     Using mix-blend-mode multiplies the logo onto the hero so the
+     off‑white circle disappears while the coloured shapes remain visible. */
+  border-radius: 0;
+  mix-blend-mode: multiply;
 }
 
 /* Icon grid for the info page */
@@ -224,10 +228,15 @@ body {
 }
 
 header {
-  display: flex;
-  flex-wrap: nowrap;
+  /* Use a grid layout with three columns (left, centre and right) so that
+     the centre item remains centred regardless of the width of the left
+     and right sections.  This keeps the logo perfectly centred on
+     non‑home pages. */
+  display: grid;
+  /* Use symmetric columns so the centre column (logo) stays centered between
+     the left and right sections.  Both side columns take up equal space. */
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   /* Fix the header height to the value defined in --header-height.  This ensures
      the top bar appears thick on mobile devices and matches the bottom nav. */
   height: var(--header-height);
@@ -237,11 +246,36 @@ header {
   color: var(--primary-color);
 }
 
+/* On the home page the header becomes a single flex container.  The
+   .home-header class is added by script.js when building the header on
+   the home page.  All icons are centered in a row. */
+header.home-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* In the home header, ensure all icons and buttons inherit the primary colour */
+header.home-header a,
+header.home-header button,
+header.home-header i {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 1.4rem;
+}
+
 /* Header sections for logo/title and contact actions */
 .header-left {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+/* Ensure contact links use the primary colour so they are white on the gold bar. */
+.header-left a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 1.4rem;
 }
 .header-left .logo {
   /* Hide the logo icon in the header since the property name stands on its own */
@@ -265,10 +299,20 @@ header {
 /* Header centre container holds the logo on non-home pages. It expands
    to occupy available space between left and right sections. */
 .header-center {
-  flex: 1;
+  /* Centre content within its grid cell */
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Make sure all interactive elements in the header inherit the primary
+   colour.  Without this, some icons (e.g. links) may fall back to the
+   browser default (blue) on certain devices. */
+header a,
+header button,
+header i {
+  color: var(--primary-color);
+  text-decoration: none;
 }
 
 /* Small logo displayed in the header on non-home pages */

@@ -75,7 +75,182 @@ const TRANSLATIONS = {
     howto: 'Guide',
     housetour: 'Tour'
   }
+  ,
+  zh: {
+    home: '首页',
+    info: '信息',
+    map: '地图',
+    search: '搜索',
+    admin: '管理',
+    howto: '指南',
+    housetour: '房屋导览'
+  },
+  ja: {
+    home: 'ホーム',
+    info: '情報',
+    map: 'マップ',
+    search: '検索',
+    admin: '管理',
+    howto: 'ガイド',
+    housetour: 'ハウスツアー'
+  },
+  ru: {
+    home: 'Главная',
+    info: 'Информация',
+    map: 'Карта',
+    search: 'Поиск',
+    admin: 'Админ',
+    howto: 'Руководства',
+    housetour: 'Домашний тур'
+  }
 };
+
+// Category name translations.  Keys are slugified titles (lowercase with
+// underscores).  Languages not included in this map will fall back to the
+// English value.
+const CATEGORY_TRANSLATIONS = {
+  en: {
+    arrival_and_parking: 'Arrival and parking',
+    access_and_check_in: 'Access and check in',
+    wifi: 'Wi‑Fi',
+    house_rules_and_safety: 'House rules and safety',
+    check_out: 'Check out',
+    restaurants: 'Restaurants',
+    cafes: 'Cafes',
+    bars: 'Bars',
+    breweries: 'Breweries',
+    beaches: 'Beaches',
+    walks_and_trails: 'Walks & Trails',
+    day_trips: 'Day trips',
+    sightseeing: 'Sightseeing',
+    quick_picks: 'Quick picks'
+  },
+  es: {
+    arrival_and_parking: 'Llegada y estacionamiento',
+    access_and_check_in: 'Acceso y registro',
+    wifi: 'Wi‑Fi',
+    house_rules_and_safety: 'Reglas y seguridad',
+    check_out: 'Salida',
+    restaurants: 'Restaurantes',
+    cafes: 'Cafés',
+    bars: 'Bares',
+    breweries: 'Cervecerías',
+    beaches: 'Playas',
+    walks_and_trails: 'Caminatas y senderos',
+    day_trips: 'Excursiones de un día',
+    sightseeing: 'Turismo',
+    quick_picks: 'Elecciones rápidas'
+  },
+  fr: {
+    arrival_and_parking: 'Arrivée et stationnement',
+    access_and_check_in: 'Accès et enregistrement',
+    wifi: 'Wi‑Fi',
+    house_rules_and_safety: 'Règles et sécurité',
+    check_out: 'Départ',
+    restaurants: 'Restaurants',
+    cafes: 'Cafés',
+    bars: 'Bars',
+    breweries: 'Brasseries',
+    beaches: 'Plages',
+    walks_and_trails: 'Promenades et sentiers',
+    day_trips: 'Excursions d’une journée',
+    sightseeing: 'Visites',
+    quick_picks: 'Choix rapides'
+  },
+  de: {
+    arrival_and_parking: 'Ankunft und Parken',
+    access_and_check_in: 'Zugang und Check‑in',
+    wifi: 'WLAN',
+    house_rules_and_safety: 'Hausregeln & Sicherheit',
+    check_out: 'Check‑out',
+    restaurants: 'Restaurants',
+    cafes: 'Cafés',
+    bars: 'Bars',
+    breweries: 'Brauereien',
+    beaches: 'Strände',
+    walks_and_trails: 'Spaziergänge & Pfade',
+    day_trips: 'Tagesausflüge',
+    sightseeing: 'Sehenswürdigkeiten',
+    quick_picks: 'Tipps'
+  },
+  it: {
+    arrival_and_parking: 'Arrivo e parcheggio',
+    access_and_check_in: 'Accesso e check‑in',
+    wifi: 'Wi‑Fi',
+    house_rules_and_safety: 'Regole e sicurezza',
+    check_out: 'Check‑out',
+    restaurants: 'Ristoranti',
+    cafes: 'Caffè',
+    bars: 'Bar',
+    breweries: 'Birrifici',
+    beaches: 'Spiagge',
+    walks_and_trails: 'Passeggiate e sentieri',
+    day_trips: 'Gite di un giorno',
+    sightseeing: 'Luoghi d’interesse',
+    quick_picks: 'Scelte veloci'
+  },
+  zh: {
+    arrival_and_parking: '到达和停车',
+    access_and_check_in: '进入和入住',
+    wifi: '无线网络',
+    house_rules_and_safety: '规章和安全',
+    check_out: '退房',
+    restaurants: '餐厅',
+    cafes: '咖啡馆',
+    bars: '酒吧',
+    breweries: '酿酒厂',
+    beaches: '海滩',
+    walks_and_trails: '步行和步道',
+    day_trips: '一日游',
+    sightseeing: '观光',
+    quick_picks: '快速选择'
+  },
+  ja: {
+    arrival_and_parking: '到着と駐車',
+    access_and_check_in: 'アクセスとチェックイン',
+    wifi: 'Wi‑Fi',
+    house_rules_and_safety: 'ハウスルールと安全',
+    check_out: 'チェックアウト',
+    restaurants: 'レストラン',
+    cafes: 'カフェ',
+    bars: 'バー',
+    breweries: 'ブルワリー',
+    beaches: 'ビーチ',
+    walks_and_trails: 'ウォーキングとトレイル',
+    day_trips: '日帰り旅行',
+    sightseeing: '観光',
+    quick_picks: 'おすすめ'
+  },
+  ru: {
+    arrival_and_parking: 'Прибытие и парковка',
+    access_and_check_in: 'Доступ и заселение',
+    wifi: 'Wi‑Fi',
+    house_rules_and_safety: 'Правила и безопасность',
+    check_out: 'Выезд',
+    restaurants: 'Рестораны',
+    cafes: 'Кафе',
+    bars: 'Бары',
+    breweries: 'Пивоварни',
+    beaches: 'Пляжи',
+    walks_and_trails: 'Прогулки и тропы',
+    day_trips: 'Однодневные поездки',
+    sightseeing: 'Достопримечательности',
+    quick_picks: 'Быстрый выбор'
+  }
+};
+
+/**
+ * Translate a category title using the CATEGORY_TRANSLATIONS map.  The key is
+ * derived from the slugified title where spaces are replaced with
+ * underscores.  If no translation exists the original title is returned.
+ * @param {string} title
+ */
+function translateCategory(title) {
+  // Derive a slug key from the title (lowercase and underscores)
+  const slug = title.toLowerCase().replace(/\s+/g, '_').replace(/&/g, 'and').replace(/[^a-z0-9_]/g, '');
+  const langMap = CATEGORY_TRANSLATIONS[currentLang] || CATEGORY_TRANSLATIONS.en;
+  return langMap[slug] || title;
+}
 
 // Determine the current language from localStorage or default to English.
 let currentLang = localStorage.getItem('lang') || 'en';
@@ -385,81 +560,95 @@ async function buildHeader() {
   // Determine which page is currently loaded to adapt the header layout.
   const page = document.body.dataset.page || '';
   const isHome = page === 'home';
-  // Clear any existing content
+  // Clear any existing content and set the appropriate header layout class
   header.innerHTML = '';
+  header.classList.toggle('home-header', isHome);
 
-  // Left section: contact actions (phone and email).  This appears on all pages.
-  const left = document.createElement('div');
-  left.className = 'header-left';
-  if (guide.contact && guide.contact.host_phone) {
-    const phoneLink = document.createElement('a');
-    phoneLink.href = 'tel:' + guide.contact.host_phone;
-    const phoneIcon = document.createElement('i');
-    phoneIcon.className = 'fa-solid fa-phone';
-    phoneLink.appendChild(phoneIcon);
-    left.appendChild(phoneLink);
-  }
-  if (guide.contact && guide.contact.host_email) {
-    const emailLink = document.createElement('a');
-    emailLink.href = 'mailto:' + guide.contact.host_email;
-    const emailIcon = document.createElement('i');
-    emailIcon.className = 'fa-solid fa-envelope';
-    emailLink.appendChild(emailIcon);
-    left.appendChild(emailLink);
-  }
-  header.appendChild(left);
+  // Helper to create contact links
+  const createContactLinks = () => {
+    const icons = [];
+    if (guide.contact && guide.contact.host_phone) {
+      const phoneLink = document.createElement('a');
+      phoneLink.href = 'tel:' + guide.contact.host_phone;
+      const phoneIcon = document.createElement('i');
+      phoneIcon.className = 'fa-solid fa-phone';
+      phoneLink.appendChild(phoneIcon);
+      icons.push(phoneLink);
+    }
+    if (guide.contact && guide.contact.host_email) {
+      const emailLink = document.createElement('a');
+      emailLink.href = 'mailto:' + guide.contact.host_email;
+      const emailIcon = document.createElement('i');
+      emailIcon.className = 'fa-solid fa-envelope';
+      emailLink.appendChild(emailIcon);
+      icons.push(emailLink);
+    }
+    return icons;
+  };
+  // Helper to create QR and language selector group
+  const createActionIcons = () => {
+    const container = document.createElement('div');
+    container.className = 'action-icons';
+    // QR button
+    const qrBtn = document.createElement('button');
+    qrBtn.id = 'qr-button';
+    qrBtn.textContent = 'QR';
+    qrBtn.onclick = showQR;
+    container.appendChild(qrBtn);
+    // Language selector
+    const langWrapper = document.createElement('div');
+    langWrapper.className = 'language-selector';
+    const globeIcon = document.createElement('i');
+    globeIcon.className = 'fa-solid fa-globe';
+    globeIcon.style.cursor = 'pointer';
+    langWrapper.appendChild(globeIcon);
+    const langSelect = document.createElement('select');
+    langSelect.id = 'language-select';
+    Object.keys(TRANSLATIONS).forEach((code) => {
+      const option = document.createElement('option');
+      option.value = code;
+      option.textContent = code.toUpperCase();
+      if (code === currentLang) option.selected = true;
+      langSelect.appendChild(option);
+    });
+    langSelect.onchange = (e) => setLanguage(e.target.value);
+    langSelect.style.display = 'none';
+    globeIcon.onclick = () => {
+      langSelect.style.display = langSelect.style.display === 'none' ? 'block' : 'none';
+    };
+    langWrapper.appendChild(langSelect);
+    container.appendChild(langWrapper);
+    return container;
+  };
 
-  // Centre section: show the property logo on all pages except the home page.
-  const center = document.createElement('div');
-  center.className = 'header-center';
-  if (!isHome) {
+  if (isHome) {
+    // Home page: centre all icons in a single row
+    const icons = [];
+    icons.push(...createContactLinks());
+    icons.push(...Array.from(createActionIcons().children));
+    icons.forEach(el => header.appendChild(el));
+  } else {
+    // Non‑home pages: build left, centre and right sections
+    const left = document.createElement('div');
+    left.className = 'header-left';
+    createContactLinks().forEach(el => left.appendChild(el));
+    header.appendChild(left);
+    const center = document.createElement('div');
+    center.className = 'header-center';
     const logoImg = document.createElement('img');
-    // Use the hero button image (circular logo) as the header logo if present
-    // otherwise fall back to the app icon.
+    // Use a circular logo for the header if available; fall back to hero button
     logoImg.src = guide.logo_button || guide.logo || '/hero-button.png';
     logoImg.alt = guide.name || 'Logo';
     logoImg.className = 'header-logo';
     center.appendChild(logoImg);
+    header.appendChild(center);
+    const right = document.createElement('div');
+    right.className = 'header-right';
+    const actions = createActionIcons();
+    // Append each action element directly to the right container
+    Array.from(actions.children).forEach(el => right.appendChild(el));
+    header.appendChild(right);
   }
-  header.appendChild(center);
-
-  // Right section: QR code button and language selector.
-  const right = document.createElement('div');
-  right.className = 'header-right';
-  // QR button: open the QR modal when clicked.
-  const qrBtn = document.createElement('button');
-  qrBtn.id = 'qr-button';
-  qrBtn.textContent = 'QR';
-  qrBtn.onclick = showQR;
-  right.appendChild(qrBtn);
-  // Language selector: globe icon with drop‑down.  Use a select for
-  // simplicity; clicking on the globe toggles the visibility of the select.
-  const langWrapper = document.createElement('div');
-  langWrapper.className = 'language-selector';
-  const globeIcon = document.createElement('i');
-  globeIcon.className = 'fa-solid fa-globe';
-  globeIcon.style.cursor = 'pointer';
-  langWrapper.appendChild(globeIcon);
-  const langSelect = document.createElement('select');
-  langSelect.id = 'language-select';
-  // Populate options from TRANSLATIONS keys
-  Object.keys(TRANSLATIONS).forEach((code) => {
-    const option = document.createElement('option');
-    option.value = code;
-    option.textContent = code.toUpperCase();
-    if (code === currentLang) option.selected = true;
-    langSelect.appendChild(option);
-  });
-  // When the selection changes, set the language
-  langSelect.onchange = (e) => setLanguage(e.target.value);
-  // Hide the select by default; clicking globe toggles its visibility
-  langSelect.style.display = 'none';
-  globeIcon.onclick = () => {
-    langSelect.style.display = langSelect.style.display === 'none' ? 'block' : 'none';
-  };
-  langWrapper.appendChild(langSelect);
-  right.appendChild(langWrapper);
-  header.appendChild(right);
 }
 
 /** Helper to parse query parameters from the current URL. */
@@ -563,9 +752,9 @@ async function loadInfo() {
     const iconClass = CATEGORY_ICONS[cat.id] || 'fa-folder';
     iconEl.className = `fa-solid ${iconClass}`;
     card.appendChild(iconEl);
-    // Title
+    // Title (translated if available)
     const span = document.createElement('span');
-    span.textContent = cat.title;
+    span.textContent = translateCategory(cat.title);
     card.appendChild(span);
     // Click handler to open subcategory or category page
     card.onclick = () => {
@@ -589,7 +778,8 @@ async function loadInfo() {
   houseIcon.className = 'fa-solid fa-house';
   houseCard.appendChild(houseIcon);
   const houseSpan = document.createElement('span');
-  houseSpan.textContent = 'House Tour';
+  // Translate the "House Tour" label if available
+  houseSpan.textContent = t('housetour');
   houseCard.appendChild(houseSpan);
   houseCard.onclick = () => {
     window.location.href = '/house-tour.html';
@@ -602,7 +792,8 @@ async function loadInfo() {
   howIcon.className = 'fa-solid fa-lightbulb';
   howCard.appendChild(howIcon);
   const howSpan = document.createElement('span');
-  howSpan.textContent = 'How‑To Guides';
+  // Translate the "Guides" label if available
+  howSpan.textContent = t('howto');
   howCard.appendChild(howSpan);
   howCard.onclick = () => {
     window.location.href = '/howto.html';
@@ -651,7 +842,8 @@ async function loadSubcategory() {
   // If id matches a category and it has multiple subcategories, show a grid of subcategories
   if (category && (category.subcategories || []).length > 1) {
     const heading = document.createElement('h2');
-    heading.textContent = category.title;
+    // Translate the category title when showing a grid of its subcategories
+    heading.textContent = translateCategory(category.title);
     main.appendChild(heading);
     const grid = document.createElement('div');
     grid.className = 'subcategory-grid';
@@ -663,7 +855,8 @@ async function loadSubcategory() {
       icon.className = `fa-solid ${iconClass}`;
       card.appendChild(icon);
       const span = document.createElement('span');
-      span.textContent = sub.title;
+      // Translate each subcategory title if a translation is available
+      span.textContent = translateCategory(sub.title);
       card.appendChild(span);
       card.onclick = () => {
         window.location.href = `/subcategory.html?id=${encodeURIComponent(sub.id)}`;
@@ -682,7 +875,8 @@ async function loadSubcategory() {
       return;
     }
     const h2 = document.createElement('h2');
-    h2.textContent = subcategory.title;
+    // Translate the subcategory title when displaying its topics
+    h2.textContent = translateCategory(subcategory.title);
     main.appendChild(h2);
     const topics = subcategory.topics || [];
     if (!topics || topics.length === 0) {
