@@ -24,6 +24,87 @@ const CATEGORY_ICONS = {
   'how-to': 'fa-lightbulb'
 };
 
+// Translation dictionaries for navigation and key labels. Additional languages
+// can be added here. If a translation is missing, the English key will be
+// used as a fallback. Feel free to expand this object with more languages
+// and translated keys. Currently supported: English (en), Spanish (es),
+// French (fr), German (de), Italian (it).
+const TRANSLATIONS = {
+  en: {
+    home: 'Home',
+    info: 'Info',
+    map: 'Map',
+    search: 'Search',
+    admin: 'Admin',
+    howto: 'Guides',
+    housetour: 'Tour'
+  },
+  es: {
+    home: 'Inicio',
+    info: 'Información',
+    map: 'Mapa',
+    search: 'Buscar',
+    admin: 'Administración',
+    howto: 'Guías',
+    housetour: 'Recorrido'
+  },
+  fr: {
+    home: 'Accueil',
+    info: 'Infos',
+    map: 'Carte',
+    search: 'Recherche',
+    admin: 'Admin',
+    howto: 'Guides',
+    housetour: 'Visite'
+  },
+  de: {
+    home: 'Startseite',
+    info: 'Info',
+    map: 'Karte',
+    search: 'Suche',
+    admin: 'Admin',
+    howto: 'Anleitungen',
+    housetour: 'Tour'
+  },
+  it: {
+    home: 'Home',
+    info: 'Info',
+    map: 'Mappa',
+    search: 'Cerca',
+    admin: 'Amministrazione',
+    howto: 'Guide',
+    housetour: 'Tour'
+  }
+};
+
+// Determine the current language from localStorage or default to English.
+let currentLang = localStorage.getItem('lang') || 'en';
+
+/**
+ * Translate a key according to the selected language. If the key or language
+ * is missing, the original key is returned. Use this for navigation labels
+ * and other static UI strings.
+ * @param {string} key
+ * @returns {string}
+ */
+function t(key) {
+  const langMap = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+  return langMap[key] || TRANSLATIONS.en[key] || key;
+}
+
+/**
+ * Change the current language and reload the page. Storing the selected
+ * language in localStorage ensures the preference persists across sessions
+ * and pages. Reloading causes the UI to rebuild with translated labels.
+ * @param {string} lang
+ */
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('lang', lang);
+  // Reload the page to re-run loaders and apply translations
+  location.reload();
+}
+
 /** Convert a string into a URL friendly slug consisting of lowercase
  * letters and numbers separated by hyphens.  This helper is used
  * to generate stable identifiers for topics so they can be linked
@@ -269,10 +350,10 @@ function buildNav(current) {
   const nav = document.querySelector('nav');
   if (!nav) return;
   const links = [
-    { id: 'home', label: 'Home', href: '/index.html' },
-    { id: 'info', label: 'Info', href: '/info.html' },
-    { id: 'map', label: 'Map', href: '/map.html' },
-    { id: 'search', label: 'Search', href: '/search.html' }
+    { id: 'home', label: t('home'), href: '/index.html' },
+    { id: 'info', label: t('info'), href: '/info.html' },
+    { id: 'map', label: t('map'), href: '/map.html' },
+    { id: 'search', label: t('search'), href: '/search.html' }
   ];
   nav.innerHTML = '';
   links.forEach(({ id, label, href }) => {
@@ -301,48 +382,83 @@ async function buildHeader() {
   const header = document.querySelector('header');
   if (!header) return;
   const guide = data.guide || {};
+  // Determine which page is currently loaded to adapt the header layout.
+  const page = document.body.dataset.page || '';
+  const isHome = page === 'home';
   // Clear any existing content
   header.innerHTML = '';
-  // Left side with logo and property name
+
+  // Left section: contact actions (phone and email).  This appears on all pages.
   const left = document.createElement('div');
   left.className = 'header-left';
-  // Use the application icon if available, otherwise fallback to text
-  const logo = document.createElement('img');
-  logo.src = guide.logo || '/icon-192.png';
-  logo.alt = 'Logo';
-  logo.className = 'logo';
-  left.appendChild(logo);
-  const title = document.createElement('span');
-  title.textContent = guide.name || 'Guide';
-  left.appendChild(title);
-  header.appendChild(left);
-  // Right side with contact icons and QR button
-  const right = document.createElement('div');
-  right.className = 'header-right';
-  // Phone link
   if (guide.contact && guide.contact.host_phone) {
     const phoneLink = document.createElement('a');
     phoneLink.href = 'tel:' + guide.contact.host_phone;
     const phoneIcon = document.createElement('i');
     phoneIcon.className = 'fa-solid fa-phone';
     phoneLink.appendChild(phoneIcon);
-    right.appendChild(phoneLink);
+    left.appendChild(phoneLink);
   }
-  // Email link
   if (guide.contact && guide.contact.host_email) {
     const emailLink = document.createElement('a');
     emailLink.href = 'mailto:' + guide.contact.host_email;
     const emailIcon = document.createElement('i');
     emailIcon.className = 'fa-solid fa-envelope';
     emailLink.appendChild(emailIcon);
-    right.appendChild(emailLink);
+    left.appendChild(emailLink);
   }
-  // QR button - will be wired to show QR code
+  header.appendChild(left);
+
+  // Centre section: show the property logo on all pages except the home page.
+  const center = document.createElement('div');
+  center.className = 'header-center';
+  if (!isHome) {
+    const logoImg = document.createElement('img');
+    // Use the hero button image (circular logo) as the header logo if present
+    // otherwise fall back to the app icon.
+    logoImg.src = guide.logo_button || guide.logo || '/hero-button.png';
+    logoImg.alt = guide.name || 'Logo';
+    logoImg.className = 'header-logo';
+    center.appendChild(logoImg);
+  }
+  header.appendChild(center);
+
+  // Right section: QR code button and language selector.
+  const right = document.createElement('div');
+  right.className = 'header-right';
+  // QR button: open the QR modal when clicked.
   const qrBtn = document.createElement('button');
   qrBtn.id = 'qr-button';
   qrBtn.textContent = 'QR';
   qrBtn.onclick = showQR;
   right.appendChild(qrBtn);
+  // Language selector: globe icon with drop‑down.  Use a select for
+  // simplicity; clicking on the globe toggles the visibility of the select.
+  const langWrapper = document.createElement('div');
+  langWrapper.className = 'language-selector';
+  const globeIcon = document.createElement('i');
+  globeIcon.className = 'fa-solid fa-globe';
+  globeIcon.style.cursor = 'pointer';
+  langWrapper.appendChild(globeIcon);
+  const langSelect = document.createElement('select');
+  langSelect.id = 'language-select';
+  // Populate options from TRANSLATIONS keys
+  Object.keys(TRANSLATIONS).forEach((code) => {
+    const option = document.createElement('option');
+    option.value = code;
+    option.textContent = code.toUpperCase();
+    if (code === currentLang) option.selected = true;
+    langSelect.appendChild(option);
+  });
+  // When the selection changes, set the language
+  langSelect.onchange = (e) => setLanguage(e.target.value);
+  // Hide the select by default; clicking globe toggles its visibility
+  langSelect.style.display = 'none';
+  globeIcon.onclick = () => {
+    langSelect.style.display = langSelect.style.display === 'none' ? 'block' : 'none';
+  };
+  langWrapper.appendChild(langSelect);
+  right.appendChild(langWrapper);
   header.appendChild(right);
 }
 

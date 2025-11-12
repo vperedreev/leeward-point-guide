@@ -20,8 +20,11 @@
      control the thickness of the gold bar at the top and the dark menu bar
      at the bottom.  By centralising them as variables we can reuse them
      throughout the stylesheet and easily adjust the UI scale on mobile. */
-  --header-height: 4.5rem;
-  --nav-height: 4.5rem;
+  /* Reduce the header and nav heights so the home screen fits on one
+     mobile viewport without requiring scroll. 3.5rem offers a thicker
+     visual bar than the original design while conserving space. */
+  --header-height: 3.5rem;
+  --nav-height: 3.5rem;
 
   /* Dedicated colours for the header and footer.  The header typically uses
      the accent colour for contrast, while the footer (bottom navigation)
@@ -103,7 +106,10 @@ body {
    as a button to enter the guide.  Constrain its width on small
    screens while preserving aspect ratio. */
 .hero-logo-button {
-  max-width: 60%;
+  /* Shrink the logo on the home page so it doesn't dominate the hero.
+     A smaller logo helps the entire hero fit on a single screen on
+     mobile devices. */
+  max-width: 40%;
   height: auto;
   display: block;
   margin: 0 auto;
@@ -254,6 +260,44 @@ header {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+}
+
+/* Header centre container holds the logo on non-home pages. It expands
+   to occupy available space between left and right sections. */
+.header-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Small logo displayed in the header on non-home pages */
+.header-center .header-logo {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+/* Language selector wrapper. The select element is hidden by default and
+   revealed when the user clicks the globe icon. */
+.language-selector select {
+  background: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  margin-left: 0.25rem;
+  padding: 0.1rem 0.3rem;
+}
+.language-selector i {
+  color: var(--primary-color);
+  font-size: 1.4rem;
+  margin-left: 0.25rem;
+}
+.language-selector option {
+  color: #000;
+  background-color: #fff;
 }
 .header-right a {
   /* Contact icons in the header use the primary colour for contrast on the gold background. */
